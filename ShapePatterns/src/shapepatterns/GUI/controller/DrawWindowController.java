@@ -10,8 +10,15 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import shapepatterns.BLL.Point;
 /**
  *
  * @author sebok
@@ -19,20 +26,40 @@ import javafx.scene.control.Label;
 public class DrawWindowController implements Initializable
 {
     
-    @FXML
     private Label label;
-    
     @FXML
-    private void handleButtonAction(ActionEvent event)
-    {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
+    private ChoiceBox<?> cBoxShapeSelect;
+    @FXML
+    private TextField txtFieldSize;
+    @FXML
+    private ListView<?> lstViewShapes;
+    @FXML
+    private Button btnAdd;
+    @FXML
+    private ChoiceBox<?> cBoxDrawStrategy;
+    @FXML
+    private Button btnDraw;
+    @FXML
+    private Button btnClear;
+    @FXML
+    private Canvas canvas;
+    
+    private GraphicsContext context;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        context = canvas.getGraphicsContext2D();
     }    
+
+    @FXML
+    private void btnDrawClick(ActionEvent event)
+    {
+        double x = canvas.getWidth()/2;
+        double y = canvas.getHeight()/2;
+        Point p = new Point(x, y);
+        
+        p.draw(context);
+    }
     
 }

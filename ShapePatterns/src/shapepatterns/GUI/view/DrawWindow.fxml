@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="528.0" prefWidth="890.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="shapepatterns.GUI.controller.DrawWindowController">
+<AnchorPane id="AnchorPane" prefHeight="528.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shapepatterns.GUI.controller.DrawWindowController">
    <children>
       <SplitPane dividerPositions="0.4403153153153153" layoutX="-14.0" prefHeight="462.0" prefWidth="890.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -28,9 +28,9 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="628.0" prefWidth="293.0">
                <children>
-                  <ChoiceBox fx:id="cBoxDrawStrategy" layoutX="14.0" layoutY="440.0" prefWidth="150.0" />
-                  <Button fx:id="btnDraw" layoutX="349.0" layoutY="440.0" mnemonicParsing="false" text="Draw shapes" />
-                  <Button fx:id="btnClear" layoutX="349.0" layoutY="481.0" mnemonicParsing="false" text="Clear canvas" />
+                  <ChoiceBox fx:id="cBoxDrawStrategy" layoutX="14.0" layoutY="440.0" prefWidth="150.0" AnchorPane.bottomAnchor="56.0" />
+                  <Button fx:id="btnDraw" layoutX="349.0" layoutY="440.0" mnemonicParsing="false" onAction="#btnDrawClick" text="Draw shapes" AnchorPane.bottomAnchor="56.0" />
+                  <Button fx:id="btnClear" layoutX="349.0" layoutY="481.0" mnemonicParsing="false" text="Clear canvas" AnchorPane.bottomAnchor="14.0" />
                   <Canvas fx:id="canvas" height="425.0" layoutX="14.0" layoutY="8.0" width="475.0" />
                </children>
             </AnchorPane>
