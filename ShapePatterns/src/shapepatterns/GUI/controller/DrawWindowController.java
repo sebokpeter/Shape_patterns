@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import shapepatterns.BLL.Point;
+import shapepatterns.BLL.Shape;
 /**
  *
  * @author sebok
@@ -55,11 +56,24 @@ public class DrawWindowController implements Initializable
     @FXML
     private void btnDrawClick(ActionEvent event)
     {
+        
         double x = canvas.getWidth()/2;
         double y = canvas.getHeight()/2;
         Point p = new Point(x, y);
+        Point p2 = new Point(x+100, y+100);
         
-        p.draw(context);
+        Shape s = new Shape();
+        s.addPoint(p);
+        s.addPoint(p2);
+        
+        s.draw(context);
+        
     }
     
+    
+    @FXML 
+    private void btnClearClick(ActionEvent event)
+    {
+        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
 }

@@ -30,7 +30,7 @@
                <children>
                   <ChoiceBox fx:id="cBoxDrawStrategy" layoutX="14.0" layoutY="440.0" prefWidth="150.0" AnchorPane.bottomAnchor="56.0" />
                   <Button fx:id="btnDraw" layoutX="349.0" layoutY="440.0" mnemonicParsing="false" onAction="#btnDrawClick" text="Draw shapes" AnchorPane.bottomAnchor="56.0" />
-                  <Button fx:id="btnClear" layoutX="349.0" layoutY="481.0" mnemonicParsing="false" text="Clear canvas" AnchorPane.bottomAnchor="14.0" />
+                  <Button fx:id="btnClear" layoutX="349.0" layoutY="481.0" mnemonicParsing="false" onAction="#btnClearClick" text="Clear canvas" AnchorPane.bottomAnchor="14.0" />
                   <Canvas fx:id="canvas" height="425.0" layoutX="14.0" layoutY="8.0" width="475.0" />
                </children>
             </AnchorPane>
