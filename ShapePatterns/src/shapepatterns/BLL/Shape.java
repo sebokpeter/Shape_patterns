@@ -26,6 +26,11 @@ public class Shape implements Drawable
         this.points = new ArrayList();
     }
     
+    public Shape(String name)
+    {
+        this.points = new ArrayList();
+        this.name = name;
+    }
     public Shape(String name, int size)
     {
         this.points = new ArrayList();
@@ -102,7 +107,7 @@ public class Shape implements Drawable
         context.strokeLine(points.get(points.size()  - 1).getX(), points.get(points.size() - 1).getY(), points.get(0).getX(), points.get(0).getY()); //Draw a line from the last point to the first
         */
         
-        context.fillPolygon(getXCoordinates(), getYCoordinates(), points.size());
+        context.strokePolygon(getXCoordinates(), getYCoordinates(), points.size());
     }
     
 }

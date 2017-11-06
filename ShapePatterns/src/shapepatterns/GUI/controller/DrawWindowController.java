@@ -34,8 +34,6 @@ import shapepatterns.BLL.Shape;
 public class DrawWindowController implements Initializable
 {
     
-    private Label label;
-    private ChoiceBox<?> cBoxShapeSelect;
     @FXML
     private TextField txtFieldSize;
     @FXML
@@ -66,7 +64,8 @@ public class DrawWindowController implements Initializable
         setUpComboBox();
         setUpListView();
         
-        shapes.add(new Shape("A", 10));
+        shapes.add(new Shape("Triangle"));
+        shapes.add(new Shape("Square"));
     }    
 
     /**
@@ -88,17 +87,22 @@ public class DrawWindowController implements Initializable
         s.addPoint(p2);
         s.addPoint(p3);
         
-        s.draw(context);
-        if (!shapes.contains(s))
-        {
-            shapes.add(s);
-        }
+        s.draw(context);      
     }
     
     @FXML
     private void btnAddClick(ActionEvent event)
     {
-        listViewCollection.add(new Shape("Triangle", 10));
+        Shape selectedShape = (Shape)comboBxShapeSelect.getValue();
+        if (isInt(txtFieldSize.getText()) || selectedShape != null)
+        {
+            int size = Integer.parseInt(txtFieldSize.getText());
+            listViewCollection.add(new Shape(selectedShape.getName(), size));
+        }
+        else
+        {
+            System.out.println("Please write an integer you twat!");
+        }
     }
     
     /**
@@ -135,7 +139,7 @@ public class DrawWindowController implements Initializable
     }
     
     /**
-     * 
+     * Connects the list view with the listViewCollection observableArrayList, and sets up a cellFactory, to correctly display the shapes
      */
     private void setUpListView()
     {
@@ -164,4 +168,21 @@ public class DrawWindowController implements Initializable
 
     }
 
+    /**
+     * Checks if a string can be parsed into a integer
+     * @param s 
+     * @return 
+     */
+    private boolean isInt(String s)
+    {
+        try
+        {
+            Integer.parseInt(s);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
 }
