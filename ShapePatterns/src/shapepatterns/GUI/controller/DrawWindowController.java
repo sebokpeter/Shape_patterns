@@ -78,23 +78,14 @@ public class DrawWindowController implements Initializable
         
         double x = canvas.getWidth()/2;
         double y = canvas.getHeight()/2;
-        Point p = new Point(x, y);
-        Point p2 = new Point(x+50, y+50);
-        Point p3 = new Point(x-50, y+50);
-        
-        Shape s = new Shape("Triangle", 10);
-        s.addPoint(p);
-        s.addPoint(p2);
-        s.addPoint(p3);
-        
-        s.draw(context);      
+
     }
     
     @FXML
     private void btnAddClick(ActionEvent event)
     {
         Shape selectedShape = (Shape)comboBxShapeSelect.getValue();
-        if (isInt(txtFieldSize.getText()) || selectedShape != null)
+        if (isInt(txtFieldSize.getText()) && selectedShape != null)
         {
             int size = Integer.parseInt(txtFieldSize.getText());
             listViewCollection.add(new Shape(selectedShape.getName(), size));

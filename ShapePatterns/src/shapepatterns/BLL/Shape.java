@@ -31,6 +31,7 @@ public class Shape implements Drawable
         this.points = new ArrayList();
         this.name = name;
     }
+    
     public Shape(String name, int size)
     {
         this.points = new ArrayList();
@@ -75,7 +76,7 @@ public class Shape implements Drawable
         return xCoords;
     }
     
-        private double[] getYCoordinates()
+    private double[] getYCoordinates()
     {
         double[] yCoords = new double[points.size()];
         
