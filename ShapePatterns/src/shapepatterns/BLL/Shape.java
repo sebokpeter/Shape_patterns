@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 /**
  *
  * @author sebok
- * A collection points (vertices), that define a shape
+ * A collection points (vertices), that define a shape. The Shape class only stores the relative position of the points to each other
  */
 public class Shape implements Drawable
 {
@@ -37,6 +37,18 @@ public class Shape implements Drawable
         this.points = new ArrayList();
         this.name = name;
         this.size = size;
+    }
+    
+    /**
+     * Create a copy of another shape
+     * @param s 
+     */
+    public Shape(Shape s)
+    {
+        this.points = new ArrayList<>();
+        this.points = s.getPoints();
+        this.name = s.getName();
+        this.size = s.getSize();
     }
     
     public int getSize()
@@ -63,6 +75,18 @@ public class Shape implements Drawable
     {
         points.add(p);
     }
+
+    public List<Point> getPoints()
+    {
+        List<Point> currentPoints = new ArrayList<>();
+        
+        for (Point p : points)
+        {
+          currentPoints.add(new Point(p.getX(), p.getY()));
+        }
+        
+        return currentPoints;
+    }
     
     private double[] getXCoordinates()
     {
@@ -88,6 +112,12 @@ public class Shape implements Drawable
         return yCoords;
     }
     
+    
+    /**
+     * Since the Shape class only stores the relative position of the points, we need to update them if we want to draw them on different coordinates
+     * @param x
+     * @param y 
+     */
     public void updatePoints(double x, double y)
     {
         for (Point point : points)
@@ -106,15 +136,6 @@ public class Shape implements Drawable
         context.setFill(Color.BLACK);
         context.setStroke(Color.BLACK);
         
-        /*
-        for (int i = 0; i < points.size() - 1; i++)
-        {
-            context.strokeLine(points.get(i).getX(), points.get(i).getY(), points.get(i + 1).getX(), points.get(i + 1).getY());
-        }
-        
-        
-        context.strokeLine(points.get(points.size()  - 1).getX(), points.get(points.size() - 1).getY(), points.get(0).getX(), points.get(0).getY()); //Draw a line from the last point to the first
-        */
         
         context.strokePolygon(getXCoordinates(), getYCoordinates(), points.size());
     }

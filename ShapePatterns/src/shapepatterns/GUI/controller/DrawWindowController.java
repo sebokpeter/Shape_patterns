@@ -72,8 +72,16 @@ public class DrawWindowController implements Initializable
         t.addPoint(new Point(x-50, y-50));
         t.addPoint(new Point(x+50, y-50));
         
-       shapes.add(t);
-    }    
+        Shape s = new Shape("Square");
+        s.addPoint(new Point(x, y));
+        s.addPoint(new Point(x+50, y));
+        s.addPoint(new Point(x+50, y-50));
+        s.addPoint(new Point(x, y-50));
+ 
+        shapes.add(t);
+        shapes.add(s);
+    }   
+    
 
     /**
      * Draws the selected shape onto the canvas
@@ -87,8 +95,9 @@ public class DrawWindowController implements Initializable
         
         for (Shape shape : listViewCollection)
         {
-            shape.updatePoints(x, y);
-            shape.draw(context);
+            Shape s = new Shape(shape);
+            s.updatePoints(x, y);
+            s.draw(context);
         }
     }
     
@@ -100,7 +109,7 @@ public class DrawWindowController implements Initializable
         {
             int size = Integer.parseInt(txtFieldSize.getText());
             selectedShape.setSize(size);
-            listViewCollection.add(selectedShape);
+            listViewCollection.add(new Shape(selectedShape));
         }
         else
         {
