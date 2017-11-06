@@ -19,16 +19,28 @@ public class Shape implements Drawable
 {
     private List<Point> points;
     private String name;
+    private int size;
     
     public Shape()
     {
         this.points = new ArrayList();
     }
     
-    public Shape(String name)
+    public Shape(String name, int size)
     {
         this.points = new ArrayList();
         this.name = name;
+        this.size = size;
+    }
+    
+    public int getSize()
+    {
+        return size;
+    }
+
+    public void setSize(int size)
+    {
+        this.size = size;
     }
     
     public void setName(String name)

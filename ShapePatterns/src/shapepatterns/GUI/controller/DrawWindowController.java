@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,8 +20,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
@@ -36,7 +39,7 @@ public class DrawWindowController implements Initializable
     @FXML
     private TextField txtFieldSize;
     @FXML
-    private ListView<?> lstViewShapes;
+    private ListView<Shape> lstViewShapes;
     @FXML
     private Button btnAdd;
     @FXML
@@ -52,14 +55,18 @@ public class DrawWindowController implements Initializable
     @FXML
     private ComboBox<?> comboBxDrawStrategy;
     
-    private List<Shape> shapes;
+    private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<Shape>());
+    private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<Shape>());
+
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        shapes = new ArrayList<>();
-        context = canvas.getGraphicsContext2D();
+        this.context = canvas.getGraphicsContext2D();
         setUpComboBox();
+        setUpListView();
+        
+        shapes.add(new Shape("A", 10));
     }    
 
     /**
@@ -76,7 +83,7 @@ public class DrawWindowController implements Initializable
         Point p2 = new Point(x+50, y+50);
         Point p3 = new Point(x-50, y+50);
         
-        Shape s = new Shape("Triangle");
+        Shape s = new Shape("Triangle", 10);
         s.addPoint(p);
         s.addPoint(p2);
         s.addPoint(p3);
@@ -86,7 +93,12 @@ public class DrawWindowController implements Initializable
         {
             shapes.add(s);
         }
-        updateComboBox();
+    }
+    
+    @FXML
+    private void btnAddClick(ActionEvent event)
+    {
+        listViewCollection.add(new Shape("Triangle", 10));
     }
     
     /**
@@ -104,7 +116,7 @@ public class DrawWindowController implements Initializable
      */
     private void setUpComboBox()
     {
-        comboBxShapeSelect.setItems(FXCollections.observableArrayList(shapes));
+        comboBxShapeSelect.setItems(shapes);
         comboBxShapeSelect.setConverter(new StringConverter<Shape>()
         {
             @Override
@@ -120,15 +132,36 @@ public class DrawWindowController implements Initializable
             }
 
         });
-        shapes.add(new Shape("Name"));
-        updateComboBox();
     }
     
     /**
-     * Updates the content of the combo box. Used when a new item is added to the list
+     * 
      */
-    private void updateComboBox()
+    private void setUpListView()
     {
-        comboBxShapeSelect.setItems(FXCollections.observableArrayList(shapes));
+        lstViewShapes.setItems(listViewCollection);
+        lstViewShapes.setCellFactory(new Callback<ListView<Shape>, ListCell<Shape>>()
+        {
+            @Override
+            public ListCell<Shape> call(ListView<Shape> param)
+            {
+                ListCell<Shape> cell = new ListCell<Shape>()
+                {
+                    @Override
+                    protected void updateItem(Shape s, boolean bln)
+                    {
+                        super.updateItem(s, bln);
+                        if (s != null)
+                        {
+                            setText(s.getName() + " (" + Integer.toString(s.getSize()) + ")");
+                        }
+                    }
+                };
+                
+                return cell;
+            }
+        });
+
     }
+
 }
