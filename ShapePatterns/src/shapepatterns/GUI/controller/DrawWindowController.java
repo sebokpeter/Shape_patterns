@@ -64,8 +64,15 @@ public class DrawWindowController implements Initializable
         setUpComboBox();
         setUpListView();
         
-        shapes.add(new Shape("Triangle"));
-        shapes.add(new Shape("Square"));
+        double x = canvas.getWidth()/2;
+        double y = canvas.getHeight()/2;
+        
+        Shape t = new Shape("Triangle");
+        t.addPoint(new Point(x, y));
+        t.addPoint(new Point(x-50, y-50));
+        t.addPoint(new Point(x+50, y-50));
+        
+       shapes.add(t);
     }    
 
     /**
@@ -75,10 +82,14 @@ public class DrawWindowController implements Initializable
     @FXML
     private void btnDrawClick(ActionEvent event)
     {
+        double x = canvas.getWidth()/3;
+        double y = canvas.getHeight()/3;
         
-        double x = canvas.getWidth()/2;
-        double y = canvas.getHeight()/2;
-
+        for (Shape shape : listViewCollection)
+        {
+            shape.updatePoints(x, y);
+            shape.draw(context);
+        }
     }
     
     @FXML
@@ -88,7 +99,8 @@ public class DrawWindowController implements Initializable
         if (isInt(txtFieldSize.getText()) && selectedShape != null)
         {
             int size = Integer.parseInt(txtFieldSize.getText());
-            listViewCollection.add(new Shape(selectedShape.getName(), size));
+            selectedShape.setSize(size);
+            listViewCollection.add(selectedShape);
         }
         else
         {

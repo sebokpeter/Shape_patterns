@@ -88,6 +88,14 @@ public class Shape implements Drawable
         return yCoords;
     }
     
+    public void updatePoints(double x, double y)
+    {
+        for (Point point : points)
+        {
+            point.updateCoordinates(x, y);
+        }
+    }
+    
     /**
      * Draw a line from each point to the next
      * @param context The lines will be drawn on this 
