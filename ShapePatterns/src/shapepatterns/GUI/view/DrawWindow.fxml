@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="528.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shapepatterns.GUI.controller.DrawWindowController">
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="927.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shapepatterns.GUI.controller.DrawWindowController">
    <children>
       <SplitPane dividerPositions="0.4403153153153153" layoutX="-14.0" prefHeight="462.0" prefWidth="890.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -20,19 +20,20 @@
                   <Label layoutX="22.0" layoutY="101.0" text="Size" />
                   <TextField fx:id="txtFieldSize" layoutX="22.0" layoutY="130.0" prefHeight="31.0" prefWidth="150.0" />
                   <Separator layoutX="178.0" orientation="VERTICAL" prefHeight="526.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <ListView fx:id="lstViewShapes" layoutX="189.0" layoutY="46.0" prefHeight="397.0" prefWidth="184.0" />
+                  <ListView fx:id="lstViewShapes" layoutX="189.0" layoutY="46.0" prefHeight="477.0" prefWidth="184.0" />
                   <Label layoutX="189.0" layoutY="14.0" text="Shapes" />
                   <Button fx:id="btnAdd" layoutX="22.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnAddClick" text="Add --&gt;" />
                   <ComboBox fx:id="comboBxShapeSelect" layoutX="21.0" layoutY="46.0" prefWidth="150.0" />
-                  <Button fx:id="btnListClear" layoutX="249.0" layoutY="456.0" mnemonicParsing="false" onAction="#btnListClearClick" text="Clear list" />
+                  <Button fx:id="btnListClear" layoutX="243.0" layoutY="538.0" mnemonicParsing="false" onAction="#btnListClearClick" text="Clear list" />
+                  <TextField fx:id="txtFieldAddAmount" layoutX="108.0" layoutY="174.0" prefHeight="31.0" prefWidth="54.0" text="1" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="628.0" prefWidth="293.0">
                <children>
                   <Button fx:id="btnDraw" layoutX="349.0" layoutY="440.0" mnemonicParsing="false" onAction="#btnDrawClick" text="Draw shapes" AnchorPane.bottomAnchor="56.0" />
                   <Button fx:id="btnClear" layoutX="349.0" layoutY="481.0" mnemonicParsing="false" onAction="#btnClearClick" text="Clear canvas" AnchorPane.bottomAnchor="14.0" />
-                  <Canvas fx:id="canvas" height="425.0" layoutX="14.0" layoutY="8.0" width="475.0" />
-                  <ComboBox fx:id="comboBxDrawStrategy" layoutX="14.0" layoutY="439.0" prefWidth="150.0" />
+                  <Canvas fx:id="canvas" height="500.0" layoutX="14.0" layoutY="8.0" width="500.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <ComboBox fx:id="comboBxDrawStrategy" layoutX="26.0" layoutY="541.0" prefWidth="150.0" />
                </children>
             </AnchorPane>
         </items>

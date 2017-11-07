@@ -77,7 +77,8 @@ public class Shape implements Drawable
     {
         original.add(p);
     }
-
+    
+    
     public List<Point> getPoints()
     {
         List<Point> currentPoints = new ArrayList<>();
@@ -140,6 +141,10 @@ public class Shape implements Drawable
         }
     }
     
+    /**
+     * Create a copy of the originals list, so that it remains the same, even when the other list is modified
+     * @return 
+     */
     private List<Point> copyList()
     {
         List<Point> newList = new ArrayList();
@@ -161,9 +166,9 @@ public class Shape implements Drawable
         context.setFill(Color.BLACK);
         context.setStroke(Color.BLACK);
         
-        modifySize(size);
-        drawPoints = copyList();
-        updatePoints(x, y);
+        modifySize(size);       //Apply the size 
+        drawPoints = copyList();    //Create a copy of the original list
+        updatePoints(x, y);     //Move the points of the selected position (x,y), while keeping the shape
         
         context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());
     }

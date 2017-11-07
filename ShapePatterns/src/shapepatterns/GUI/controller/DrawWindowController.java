@@ -7,6 +7,7 @@ package shapepatterns.GUI.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -23,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 
 /**
@@ -49,10 +51,13 @@ public class DrawWindowController implements Initializable
     private ComboBox<DrawStrategy> comboBxDrawStrategy; 
     @FXML
     private Button btnListClear;
+    @FXML
+    private TextField txtFieldAddAmount;
     
     private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<DrawStrategy> drawStrategy = FXCollections.observableArrayList(new ArrayList<>());
+    
     private GraphicsContext context;
     private enum DrawStrategy {Grid, Cross, Random}
     
@@ -94,11 +99,54 @@ public class DrawWindowController implements Initializable
             }
         }
     }
-    
-    
+       
+    /**
+     * Draws a X pattern, made out of the shapes in the list view, centered on the center of the canvas
+     */
     private void drawCrossPattern()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Point> drawPositions = new ArrayList();
+        int spacing = 50; //Spacing between shapes on the canvas
+        
+        
+        //Select both axis of the matrix representing the canvas
+        for (int i = 0; i < canvas.getWidth(); i++)
+        {
+            for (int j = 0; j < canvas.getHeight(); j++)
+            {
+                if (i == j) //Get the ponts that are on the axis (\)
+                {
+                    if (i % spacing == 0)
+                    {
+                        drawPositions.add(new Point(i - spacing, j)); //Offset the point to be centered
+                        continue;
+                    }
+                }
+                if (i + j == canvas.getWidth()) //Get the points that are on the opposite axis (/)
+                {
+                    if (i % spacing == 0)
+                    {
+                        drawPositions.add(new Point(i - spacing, j));
+                        continue;
+                    }
+                }
+            }
+        }
+
+        //Loop through all the points where we can draw a shape, and if there is still a shape in the listView that has not been drawn, draw it
+        for (int i = 0; i < drawPositions.size(); i++)
+        {
+            if (i == listViewCollection.size())
+            {
+                return;
+            }
+            
+            Shape s = listViewCollection.get(i);
+            double x = drawPositions.get(i).getX();
+            double y = drawPositions.get(i).getY();
+            
+            s.draw(context, x, y);
+        }
     }
 
     private void drawGridPattern()
@@ -119,15 +167,31 @@ public class DrawWindowController implements Initializable
         }
     }
     
+    /**
+     * Adds the selected shape to the list view
+     * @param event 
+     */
     @FXML
     private void btnAddClick(ActionEvent event)
     {
-        Shape selectedShape = (Shape)comboBxShapeSelect.getValue();
-        if (isInt(txtFieldSize.getText()) && selectedShape != null)
+        Shape selectedShape = (Shape)comboBxShapeSelect.getValue(); //Get the selected shape
+        if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
         {
             int size = Integer.parseInt(txtFieldSize.getText());
             selectedShape.setSize(size);
-            listViewCollection.add(new Shape(selectedShape));
+            
+            if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
+            {
+                int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
+                for (int i = 0; i < amount; i++)
+                {
+                    listViewCollection.add(new Shape(selectedShape));
+                }
+            }
+            else  //We only need to add one
+            {
+                listViewCollection.add(new Shape(selectedShape));
+            }
         }
         else
         {
@@ -205,7 +269,6 @@ public class DrawWindowController implements Initializable
                         }
                     }
                 };
-                
                 return cell;
             }
         });
@@ -231,7 +294,7 @@ public class DrawWindowController implements Initializable
     }
     /**
      * Checks if a string can be parsed into a integer
-     * @param s 
+     * @param s String to test
      * @return 
      */
     private boolean isInt(String s)
