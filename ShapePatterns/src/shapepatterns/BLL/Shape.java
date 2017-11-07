@@ -160,20 +160,28 @@ public class Shape implements Drawable
     }
     
     
+    /**
+     * Make a triangle
+     * @return 
+     */
     public static Shape getTriangle()
     {
         double x = 0;
         double y = 0;
         Shape t = new Shape("Triangle");
         t.addPoint(new Point(x, y));
-        t.addPoint(new Point(x-50, y-50));
-        t.addPoint(new Point(x+50, y-50));
+        t.addPoint(new Point(x-50, y+50));
+        t.addPoint(new Point(x+50, y+50));
         
         t.setSize(2);
         
         return t;
     }
     
+    /**
+     * Make a square
+     * @return 
+     */
     public static Shape getSquare()
     {
         double x = 0;

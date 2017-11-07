@@ -7,7 +7,6 @@ package shapepatterns.GUI.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,23 +16,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
+
 /**
  *
  * @author sebok
  */
 public class DrawWindowController implements Initializable
 {
-    
     @FXML
     private TextField txtFieldSize;
     @FXML
@@ -49,13 +45,15 @@ public class DrawWindowController implements Initializable
     @FXML
     private ComboBox<Shape> comboBxShapeSelect;
     @FXML
-    private ComboBox<?> comboBxDrawStrategy; 
+    private ComboBox<DrawStrategy> comboBxDrawStrategy; 
     @FXML
     private Button btnListClear;
     
-    private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<Shape>());
-    private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<Shape>());
+    private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<>());
+    private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<>());
+    private ObservableList<DrawStrategy> drawStrategy = FXCollections.observableArrayList(new ArrayList<>());
     private GraphicsContext context;
+    private enum DrawStrategy {Grid, Cross, Random}
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -63,7 +61,7 @@ public class DrawWindowController implements Initializable
         this.context = canvas.getGraphicsContext2D();
         setUpComboBox();
         setUpListView();
-
+        setUpDrawStrategy();
         shapes.add(Shape.getSquare());
         shapes.add(Shape.getTriangle());
     }   
@@ -82,7 +80,6 @@ public class DrawWindowController implements Initializable
         for (Shape shape : listViewCollection)
         {
             Shape s = new Shape(shape);
-            
             
             s.draw(context, x, y);
         }
@@ -112,7 +109,6 @@ public class DrawWindowController implements Initializable
     private void btnListClearClick(ActionEvent event)
     {
         this.listViewCollection.clear();
-        this.lstViewShapes.getItems();
     }
     
     /**
@@ -180,6 +176,12 @@ public class DrawWindowController implements Initializable
             }
         });
 
+    }
+    
+    private void setUpDrawStrategy()
+    {    
+        drawStrategy.addAll(DrawStrategy.values());
+        comboBxDrawStrategy.setItems(drawStrategy);
     }
 
     /**
