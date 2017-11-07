@@ -53,6 +53,8 @@ public class DrawWindowController implements Initializable
     private Button btnListClear;
     @FXML
     private TextField txtFieldAddAmount;
+    @FXML
+    private TextField txtFieldSpacing;   
     
     private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<>());
@@ -106,8 +108,7 @@ public class DrawWindowController implements Initializable
     private void drawCrossPattern()
     {
         List<Point> drawPositions = new ArrayList();
-        int spacing = 50; //Spacing between shapes on the canvas
-        
+        int spacing = getSpacing(); //Spacing between the shapes on the canvas
         
         //Select both axis of the matrix representing the canvas
         for (int i = 0; i < canvas.getWidth(); i++)
@@ -134,24 +135,26 @@ public class DrawWindowController implements Initializable
         }
 
         //Loop through all the points where we can draw a shape, and if there is still a shape in the listView that has not been drawn, draw it
-        for (int i = 0; i < drawPositions.size(); i++)
-        {
-            if (i == listViewCollection.size())
-            {
-                return;
-            }
-            
-            Shape s = listViewCollection.get(i);
-            double x = drawPositions.get(i).getX();
-            double y = drawPositions.get(i).getY();
-            
-            s.draw(context, x, y);
-        }
+        drawAtPoints(drawPositions);
     }
 
     private void drawGridPattern()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Point> drawPositions = new ArrayList();
+        int spacing = getSpacing(); //Spacing between the shapes on the canvas
+        
+        for (int i = 0; i < canvas.getHeight(); i++)    //Go ffrom top to bottom, and select each correct row
+        {
+            if (i % spacing == 0)   //We are in a corect row
+            {
+                for (int j = 0; j < canvas.getWidth(); j+=spacing) //Go through the row,
+                {
+                    drawPositions.add(new Point(i, j));
+                }
+            }
+        }
+        
+        drawAtPoints(drawPositions);
     }
 
     private void drawRandomPattern()
@@ -164,6 +167,24 @@ public class DrawWindowController implements Initializable
             double rY = random.nextInt((int)canvas.getHeight());
             
             shape.draw(context, rX, rY);
+        }
+    }
+    
+    private void drawAtPoints(List<Point> drawPositions)
+    {
+        //Loop through all the points where we can draw a shape, and if there is still a shape in the listView that has not been drawn, draw it
+        for (int i = 0; i < drawPositions.size(); i++)
+        {
+            if (i == listViewCollection.size())
+            {
+                return;
+            }
+            
+            Shape s = listViewCollection.get(i);
+            double x = drawPositions.get(i).getX();
+            double y = drawPositions.get(i).getY();
+            
+            s.draw(context, x, y);
         }
     }
     
@@ -217,6 +238,22 @@ public class DrawWindowController implements Initializable
     private void btnClearClick(ActionEvent event)
     {
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+    
+    /**
+     * If the user entered a valid value as spacing, get it, else return a default value.
+     * @return 
+     */
+    private int getSpacing()
+    {   
+        if (isInt(txtFieldSpacing.getText()))
+        {
+            return Integer.parseInt(txtFieldSpacing.getText()); //User selected value for spacing
+        }
+        else
+        {
+            return 50; //Default value for spacing
+        }
     }
     
     /**

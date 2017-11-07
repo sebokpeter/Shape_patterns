@@ -34,6 +34,8 @@
                   <Button fx:id="btnClear" layoutX="349.0" layoutY="481.0" mnemonicParsing="false" onAction="#btnClearClick" text="Clear canvas" AnchorPane.bottomAnchor="14.0" />
                   <Canvas fx:id="canvas" height="500.0" layoutX="14.0" layoutY="8.0" width="500.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <ComboBox fx:id="comboBxDrawStrategy" layoutX="26.0" layoutY="541.0" prefWidth="150.0" />
+                  <Label layoutX="26.0" layoutY="588.0" text="Spacing: " />
+                  <TextField fx:id="txtFieldSpacing" layoutX="86.0" layoutY="583.0" prefHeight="31.0" prefWidth="92.0" />
                </children>
             </AnchorPane>
         </items>
