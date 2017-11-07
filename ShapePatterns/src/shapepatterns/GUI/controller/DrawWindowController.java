@@ -7,6 +7,7 @@ package shapepatterns.GUI.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,8 +63,7 @@ public class DrawWindowController implements Initializable
         setUpComboBox();
         setUpListView();
         setUpDrawStrategy();
-        shapes.add(Shape.getSquare());
-        shapes.add(Shape.getTriangle());
+        setUpShapes();
     }   
     
 
@@ -74,14 +74,48 @@ public class DrawWindowController implements Initializable
     @FXML
     private void btnDrawClick(ActionEvent event)
     {
-        double x = canvas.getWidth()/3;
-        double y = canvas.getHeight()/3;
+        DrawStrategy selection = comboBxDrawStrategy.getValue();
+        
+        if (selection != null)
+        {
+            switch(selection)
+            {
+                case Cross:
+                    drawCrossPattern();
+                    break;
+                case Grid:
+                    drawGridPattern();
+                    break;
+                case Random:
+                    drawRandomPattern();
+                    break;
+                default:
+                    System.out.println("Unknown strategy");
+            }
+        }
+    }
+    
+    
+    private void drawCrossPattern()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void drawGridPattern()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void drawRandomPattern()
+    {
+        Random random = new Random();
         
         for (Shape shape : listViewCollection)
         {
-            Shape s = new Shape(shape);
+            double rX = random.nextInt((int)canvas.getWidth());
+            double rY = random.nextInt((int)canvas.getHeight());
             
-            s.draw(context, x, y);
+            shape.draw(context, rX, rY);
         }
     }
     
@@ -178,12 +212,23 @@ public class DrawWindowController implements Initializable
 
     }
     
+    /**
+     * Populate the draw strategy comboBox
+     */
     private void setUpDrawStrategy()
     {    
         drawStrategy.addAll(DrawStrategy.values());
         comboBxDrawStrategy.setItems(drawStrategy);
     }
 
+    /**
+     * Populate the comboBox with shapes
+     */
+    private void setUpShapes()
+    {
+        shapes.add(Shape.getSquare());
+        shapes.add(Shape.getTriangle());
+    }
     /**
      * Checks if a string can be parsed into a integer
      * @param s 

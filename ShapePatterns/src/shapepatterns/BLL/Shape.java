@@ -5,6 +5,7 @@
  */
 package shapepatterns.BLL;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,21 +25,17 @@ public class Shape implements Drawable
     private String name;
     private int size;
     
-    public Shape()
-    {
-        this.original = new ArrayList();
-        drawPoints = new ArrayList();
-    }
-    
     public Shape(String name)
     {
         this.original = new ArrayList();
+        this.drawPoints = new ArrayList();
         this.name = name;
     }
     
     public Shape(String name, int size)
     {
         this.original = new ArrayList();
+        this.drawPoints = new ArrayList();
         this.name = name;
         this.size = size;
     }
@@ -51,6 +48,7 @@ public class Shape implements Drawable
     {
         this.original = new ArrayList<>();
         this.original = s.getPoints();
+        this.drawPoints = new ArrayList();
         this.name = s.getName();
         this.size = s.getSize();
     }
@@ -94,11 +92,11 @@ public class Shape implements Drawable
     
     private double[] getXCoordinates()
     {
-        double[] xCoords = new double[original.size()];
+        double[] xCoords = new double[drawPoints.size()];
         
-        for (int i = 0; i < original.size(); i++)
+        for (int i = 0; i < drawPoints.size(); i++)
         {
-            xCoords[i] = original.get(i).getX();
+            xCoords[i] = drawPoints.get(i).getX();
         }
         
         return xCoords;
@@ -106,11 +104,11 @@ public class Shape implements Drawable
     
     private double[] getYCoordinates()
     {
-        double[] yCoords = new double[original.size()];
+        double[] yCoords = new double[drawPoints.size()];
         
-        for (int i = 0; i < original.size(); i++)
+        for (int i = 0; i < drawPoints.size(); i++)
         {
-            yCoords[i] = original.get(i).getY();
+            yCoords[i] = drawPoints.get(i).getY();
         }
         
         return yCoords;
@@ -142,8 +140,19 @@ public class Shape implements Drawable
         }
     }
     
+    private List<Point> copyList()
+    {
+        List<Point> newList = new ArrayList();
+        
+        for (Point point : original)
+        {
+            newList.add(new Point(point.getX(), point.getY()));
+        }
+        
+        return newList;
+    }
     /**
-     * Draw a line from each point to the next
+     * Draw a polygon
      * @param context The lines will be drawn on this 
      */
     @Override
@@ -153,7 +162,7 @@ public class Shape implements Drawable
         context.setStroke(Color.BLACK);
         
         modifySize(size);
-        drawPoints = original;
+        drawPoints = copyList();
         updatePoints(x, y);
         
         context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());
