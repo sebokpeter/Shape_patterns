@@ -36,6 +36,14 @@ public class Point implements Drawable
         this.y += y;
     }
     
+    
+    public void applySize(double size)
+    {
+        this.x *= size;
+        this.y *= size;
+    }
+    
+    
     public double getX()
     {
         return x;
@@ -47,7 +55,7 @@ public class Point implements Drawable
     }
 
     @Override
-    public void draw(GraphicsContext context)
+    public void draw(GraphicsContext context, double x, double y)
     {
         context.setFill(Color.BLACK);
         context.setStroke(Color.BLACK);

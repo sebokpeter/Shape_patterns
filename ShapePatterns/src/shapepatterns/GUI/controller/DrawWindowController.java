@@ -46,16 +46,16 @@ public class DrawWindowController implements Initializable
     private Button btnClear;
     @FXML
     private Canvas canvas;
-    
-    private GraphicsContext context;
     @FXML
     private ComboBox<Shape> comboBxShapeSelect;
     @FXML
-    private ComboBox<?> comboBxDrawStrategy;
+    private ComboBox<?> comboBxDrawStrategy; 
+    @FXML
+    private Button btnListClear;
     
     private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<Shape>());
     private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<Shape>());
-
+    private GraphicsContext context;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -63,23 +63,9 @@ public class DrawWindowController implements Initializable
         this.context = canvas.getGraphicsContext2D();
         setUpComboBox();
         setUpListView();
-        
-        double x = canvas.getWidth()/2;
-        double y = canvas.getHeight()/2;
-        
-        Shape t = new Shape("Triangle");
-        t.addPoint(new Point(x, y));
-        t.addPoint(new Point(x-50, y-50));
-        t.addPoint(new Point(x+50, y-50));
-        
-        Shape s = new Shape("Square");
-        s.addPoint(new Point(x, y));
-        s.addPoint(new Point(x+50, y));
-        s.addPoint(new Point(x+50, y-50));
-        s.addPoint(new Point(x, y-50));
- 
-        shapes.add(t);
-        shapes.add(s);
+
+        shapes.add(Shape.getSquare());
+        shapes.add(Shape.getTriangle());
     }   
     
 
@@ -96,8 +82,9 @@ public class DrawWindowController implements Initializable
         for (Shape shape : listViewCollection)
         {
             Shape s = new Shape(shape);
-            s.updatePoints(x, y);
-            s.draw(context);
+            
+            
+            s.draw(context, x, y);
         }
     }
     
@@ -115,6 +102,17 @@ public class DrawWindowController implements Initializable
         {
             System.out.println("Please write an integer you twat!");
         }
+    }
+    
+    /**
+     * Clear the list of shapes
+     * @param event 
+     */
+    @FXML
+    private void btnListClearClick(ActionEvent event)
+    {
+        this.listViewCollection.clear();
+        this.lstViewShapes.getItems();
     }
     
     /**
@@ -170,6 +168,10 @@ public class DrawWindowController implements Initializable
                         if (s != null)
                         {
                             setText(s.getName() + " (" + Integer.toString(s.getSize()) + ")");
+                        }
+                        else
+                        {
+                            setText("");
                         }
                     }
                 };

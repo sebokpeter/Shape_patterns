@@ -13,28 +13,32 @@ import javafx.scene.paint.Color;
 /**
  *
  * @author sebok
- * A collection points (vertices), that define a shape. The Shape class only stores the relative position of the points to each other
+ * A collection points (vertices), that define a shape. The Shape class only stores the relative position of the points to each other.
+ * One list holds the relative position of the points. The scaling is applied to these points, by multiplying the coordinates of the points.
+ * This list is the copied to a new one, where the points are 'moved' to the correct position
  */
 public class Shape implements Drawable
 {
-    private List<Point> points;
+    private List<Point> original; //This list defines the shape by telling us the relative position of points to each other
+    private List<Point> drawPoints; //This list is used to draw the shape to the correct position
     private String name;
     private int size;
     
     public Shape()
     {
-        this.points = new ArrayList();
+        this.original = new ArrayList();
+        drawPoints = new ArrayList();
     }
     
     public Shape(String name)
     {
-        this.points = new ArrayList();
+        this.original = new ArrayList();
         this.name = name;
     }
     
     public Shape(String name, int size)
     {
-        this.points = new ArrayList();
+        this.original = new ArrayList();
         this.name = name;
         this.size = size;
     }
@@ -45,8 +49,8 @@ public class Shape implements Drawable
      */
     public Shape(Shape s)
     {
-        this.points = new ArrayList<>();
-        this.points = s.getPoints();
+        this.original = new ArrayList<>();
+        this.original = s.getPoints();
         this.name = s.getName();
         this.size = s.getSize();
     }
@@ -73,14 +77,14 @@ public class Shape implements Drawable
     
     public void addPoint(Point p)
     {
-        points.add(p);
+        original.add(p);
     }
 
     public List<Point> getPoints()
     {
         List<Point> currentPoints = new ArrayList<>();
         
-        for (Point p : points)
+        for (Point p : original)
         {
           currentPoints.add(new Point(p.getX(), p.getY()));
         }
@@ -90,11 +94,11 @@ public class Shape implements Drawable
     
     private double[] getXCoordinates()
     {
-        double[] xCoords = new double[points.size()];
+        double[] xCoords = new double[original.size()];
         
-        for (int i = 0; i < points.size(); i++)
+        for (int i = 0; i < original.size(); i++)
         {
-            xCoords[i] = points.get(i).getX();
+            xCoords[i] = original.get(i).getX();
         }
         
         return xCoords;
@@ -102,11 +106,11 @@ public class Shape implements Drawable
     
     private double[] getYCoordinates()
     {
-        double[] yCoords = new double[points.size()];
+        double[] yCoords = new double[original.size()];
         
-        for (int i = 0; i < points.size(); i++)
+        for (int i = 0; i < original.size(); i++)
         {
-            yCoords[i] = points.get(i).getY();
+            yCoords[i] = original.get(i).getY();
         }
         
         return yCoords;
@@ -118,11 +122,23 @@ public class Shape implements Drawable
      * @param x
      * @param y 
      */
-    public void updatePoints(double x, double y)
+    private void updatePoints(double x, double y)
     {
-        for (Point point : points)
+        for (Point point : drawPoints)
         {
             point.updateCoordinates(x, y);
+        }
+    }
+    
+    /**
+     * Multiplying the coordinates of all the points scales the shape
+     * @param size 
+     */
+    private void modifySize(double size)
+    {
+        for (Point point : original)
+        {
+            point.applySize(size);
         }
     }
     
@@ -131,13 +147,43 @@ public class Shape implements Drawable
      * @param context The lines will be drawn on this 
      */
     @Override
-    public void draw(GraphicsContext context)
+    public void draw(GraphicsContext context, double x, double y)
     {
         context.setFill(Color.BLACK);
         context.setStroke(Color.BLACK);
         
+        modifySize(size);
+        drawPoints = original;
+        updatePoints(x, y);
         
-        context.strokePolygon(getXCoordinates(), getYCoordinates(), points.size());
+        context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());
     }
     
+    
+    public static Shape getTriangle()
+    {
+        double x = 0;
+        double y = 0;
+        Shape t = new Shape("Triangle");
+        t.addPoint(new Point(x, y));
+        t.addPoint(new Point(x-50, y-50));
+        t.addPoint(new Point(x+50, y-50));
+        
+        t.setSize(2);
+        
+        return t;
+    }
+    
+    public static Shape getSquare()
+    {
+        double x = 0;
+        double y = 0;
+        Shape s = new Shape("Square");
+        s.addPoint(new Point(x, y));
+        s.addPoint(new Point(x+50, y));
+        s.addPoint(new Point(x+50, y-50));
+        s.addPoint(new Point(x, y-50));
+        
+        return s;
+    }
 }
