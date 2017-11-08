@@ -20,29 +20,39 @@ public class Shape implements Drawable
 {
     private List<Point> original; //This list defines the shape by telling us the relative position of points to each other
     private List<Point> drawPoints; //This list is used to draw the shape to the correct position
-    private String name;
     private int size;
     private ShapeInfo shapeInfo; //A collection of different parameters (line width, is the shape filled, line and fill color)
     private ShapeType type;
+    
     public Shape()
     {
         this.original = new ArrayList();
         this.drawPoints = new ArrayList();
     }
     
-    public Shape(String name)
+    public Shape(ShapeType type)
     {
         this.original = new ArrayList();
         this.drawPoints = new ArrayList();
-        this.name = name;
+        this.type = type;
     }
     
-    public Shape(String name, int size)
+    public Shape(ShapeType type, int size)
     {
         this.original = new ArrayList();
         this.drawPoints = new ArrayList();
-        this.name = name;
+        this.type = type;
         this.size = size;
+    }
+
+    public ShapeType getType()
+    {
+        return type;
+    }
+
+    public void setType(ShapeType type)
+    {
+        this.type = type;
     }
     
     /**
@@ -54,7 +64,7 @@ public class Shape implements Drawable
         this.original = new ArrayList<>();
         this.original = s.getPoints();
         this.drawPoints = new ArrayList();
-        this.name = s.getName();
+        this.type = s.getType();
         this.size = s.getSize();
     }
     
@@ -77,16 +87,6 @@ public class Shape implements Drawable
     public void setSize(int size)
     {
         this.size = size;
-    }
-    
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    public String getName()
-    {
-        return this.name;
     }
     
     public void addPoint(Point p)
@@ -212,7 +212,7 @@ public class Shape implements Drawable
     {
         double x = 0;
         double y = 0;
-        Shape t = new Shape("Triangle");
+        Shape t = new Shape(ShapeType.Triangle);
         t.addPoint(new Point(x, y));
         t.addPoint(new Point(x-50, y+50));
         t.addPoint(new Point(x+50, y+50));
@@ -230,7 +230,7 @@ public class Shape implements Drawable
     {
         double x = 0;
         double y = 0;
-        Shape s = new Shape("Square");
+        Shape s = new Shape(ShapeType.Square);
         s.addPoint(new Point(x, y));
         s.addPoint(new Point(x+50, y));
         s.addPoint(new Point(x+50, y-50));
@@ -247,7 +247,7 @@ public class Shape implements Drawable
     {
         double x = 0;
         double y = 0;
-        Circle s = new Circle("Circle", 0);
+        Circle s = new Circle(ShapeType.Circle, 0);
         s.addPoint(new Point(x, y));
         
         return s;
@@ -261,7 +261,7 @@ public class Shape implements Drawable
         
         double x = 0;
         double y = 0 ;
-        Shape h = new Shape("Hexagon");
+        Shape h = new Shape(ShapeType.Hexagon);
         h.addPoint(new Point(x, y));
         h.addPoint(new Point(x, y+25));
         h.addPoint(new Point(x+25, y+40));
@@ -280,7 +280,7 @@ public class Shape implements Drawable
         
         double x = 0;
         double y = 0 ;
-        Shape p = new Shape("Pentagon");
+        Shape p = new Shape(ShapeType.Pentagon);
         p.addPoint(new Point(x, y));
         p.addPoint(new Point(x-25, y+75));
         p.addPoint(new Point(x+50, y+125));

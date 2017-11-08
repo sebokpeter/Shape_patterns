@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 import shapepatterns.BLL.ShapeInfo;
+import shapepatterns.BLL.ShapeType;
 
 /**
  * Writes a shape into a file so it can be recreated later
@@ -58,15 +59,16 @@ public class ShapeWriter
         //Get the data from the shape
         int size = shape.getSize();
         List<Point> points = shape.getPoints();
-        String name = shape.getName();
-        this.fileName = shape.getName();
+        this.fileName = shape.getType().toString(); //The filename is based on the type
+        ShapeType type = shape.getType();
+        
         int lineWidth = si.getLineWidth();
         boolean filled = si.isFilled();
         Color lineColor = si.getLineColor();
         Color fillColor = si.getFillColor();
         
         //Fill up the hashmap
-        data.put("name", name);
+        data.put("type", type);
         data.put("size", size);
         data.put("lineWidth", lineWidth);
         data.put("filled", filled);

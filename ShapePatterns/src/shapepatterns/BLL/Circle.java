@@ -18,11 +18,12 @@ public class Circle extends Shape
     private Point origin;
     private Point drawPoint;
     private ShapeInfo shapeInfo;
+    private ShapeType type;
     private int size;
     
-    public Circle(String name, int size)
+    public Circle(ShapeType type, int size)
     {
-        super(name, size);
+        super(type, size);
         origin = new Point(0, 0);
     }
 

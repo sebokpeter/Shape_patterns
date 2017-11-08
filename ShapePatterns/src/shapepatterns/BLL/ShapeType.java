@@ -11,5 +11,5 @@ package shapepatterns.BLL;
  */
 public enum ShapeType
 {
-    Triangle, Square, Circle, Hexagon, Pentagon
+    Triangle, Square, Circle, Hexagon, Pentagon, Custom
 }

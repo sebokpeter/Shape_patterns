@@ -99,7 +99,6 @@ public class DrawWindowController implements Initializable
         drawer = new Drawer(context);
     }   
     
-
     /**
      * Draws the selected shape onto the canvas
      * @param event 
@@ -197,6 +196,7 @@ public class DrawWindowController implements Initializable
         Color fillColor = s.getShapeInfo().getFillColor();
         boolean isFilled = s.getShapeInfo().isFilled();
         
+        comboBxShapeSelect.setValue(s.getType());
         txtFieldSize.setText(Integer.toString(size));
         txtBoxLineWidth.setText(Integer.toString(lineWidth));
         chckBoxFilled.setSelected(isFilled);
@@ -262,7 +262,7 @@ public class DrawWindowController implements Initializable
         Shape addShape = null;
         if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
         {
-            addShape = Circle.class.isInstance(selectedShape) ? new Circle("Circle", 1) : new Shape(selectedShape);
+            addShape = Circle.class.isInstance(selectedShape) ? new Circle(ShapeType.Circle, 1) : new Shape(selectedShape);
             ShapeInfo si = new ShapeInfo();
             
             int size = Integer.parseInt(txtFieldSize.getText());
@@ -333,7 +333,7 @@ public class DrawWindowController implements Initializable
                         super.updateItem(s, bln);
                         if (s != null)
                         {
-                            setText(s.getName() + " (" + Integer.toString(s.getSize()) + ")");
+                            setText(s.getType().toString() + " (" + Integer.toString(s.getSize()) + ")");
                         }
                         else
                         {

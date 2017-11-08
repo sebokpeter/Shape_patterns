@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 import shapepatterns.BLL.ShapeInfo;
+import shapepatterns.BLL.ShapeType;
 
 /**
  * This class creates Shape object from a file
@@ -39,11 +40,23 @@ public class ShapeReader
 
     private void readFile(File file) throws Exception
     {
-        if (!file.getPath().endsWith(".txt"))
+        if (file == null)
         {
-            throw new Exception("Wrong file type");
+            return;
         }
-
+        
+        try
+        {
+            if (!file.getPath().endsWith(".txt"))
+            {
+                throw new Exception("Wrong file type");
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
         BufferedReader bf = new BufferedReader(new FileReader(file.getPath()));
         
         try
@@ -71,7 +84,7 @@ public class ShapeReader
         //All the parameters necesearry to reconstruct a shape
         Shape s = new Shape();
         ShapeInfo si = new ShapeInfo();
-        String name = "";
+        ShapeType type = null;
         int size = 0;
         int lineWidth = 0;
         boolean isFilled = false;
@@ -90,8 +103,8 @@ public class ShapeReader
                 case "size":
                     size = Integer.parseInt(param[1]);
                     break;
-                case "name":
-                    name = param[1];
+                case "type":
+                    type = ShapeType.valueOf(param[1]);
                     break;
                 case "lineWidth":
                     lineWidth = Integer.parseInt(param[1]);
@@ -117,8 +130,8 @@ public class ShapeReader
             }
         }
         
-        //Apply parameters to our shape
-        s.setName(name);
+        //Set the parameters
+        s.setType(type);
         s.setSize(size);
         s.addPoint(points);
         
