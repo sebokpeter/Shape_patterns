@@ -5,11 +5,9 @@
  */
 package shapepatterns.BLL;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 /**
  *
@@ -24,6 +22,7 @@ public class Shape implements Drawable
     private List<Point> drawPoints; //This list is used to draw the shape to the correct position
     private String name;
     private int size;
+    private ShapeInfo shapeInfo;
     
     public Shape(String name)
     {
@@ -42,7 +41,7 @@ public class Shape implements Drawable
     
     /**
      * Create a copy of another shape
-     * @param s 
+     * @param s The other shape
      */
     public Shape(Shape s)
     {
@@ -51,6 +50,12 @@ public class Shape implements Drawable
         this.drawPoints = new ArrayList();
         this.name = s.getName();
         this.size = s.getSize();
+    }
+    
+    
+    public void setShapeInfo(ShapeInfo si)
+    {
+        this.shapeInfo = si;
     }
     
     public int getSize()
@@ -163,14 +168,26 @@ public class Shape implements Drawable
     @Override
     public void draw(GraphicsContext context, double x, double y)
     {
-        context.setFill(Color.BLACK);
-        context.setStroke(Color.BLACK);
+
         
         modifySize(size);       //Apply the size 
         drawPoints = copyList();    //Create a copy of the original list
         updatePoints(x, y);     //Move the points of the selected position (x,y), while keeping the shape
         
-        context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());
+        if (shapeInfo.isFilled())
+        {
+            context.setFill(shapeInfo.getFillColor());
+            context.setStroke(shapeInfo.getLineColor());
+            
+            context.fillPolygon(getXCoordinates(), getYCoordinates(), original.size());
+        }
+        else
+        {
+            context.setStroke(shapeInfo.getLineColor());
+            context.setLineWidth(shapeInfo.getLineWidth());
+            
+            context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());       
+        }
     }
     
     

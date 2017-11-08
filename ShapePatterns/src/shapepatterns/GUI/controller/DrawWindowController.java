@@ -18,6 +18,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -26,6 +28,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
+import shapepatterns.BLL.ShapeInfo;
 
 /**
  *
@@ -55,6 +58,14 @@ public class DrawWindowController implements Initializable
     private TextField txtFieldAddAmount;
     @FXML
     private TextField txtFieldSpacing;   
+    @FXML
+    private CheckBox chckBoxFilled;
+    @FXML
+    private TextField txtBoxLineWidth;
+    @FXML
+    private ColorPicker clrPckerLine;
+    @FXML
+    private ColorPicker clrPickerFill;
     
     private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<>());
@@ -170,6 +181,11 @@ public class DrawWindowController implements Initializable
         }
     }
     
+    /**
+     * Given a list of points, this method will draw the shapes found in the listViewCollection. 
+     * If there are no more shapes in the listViewCollection, or more points in the supplied list, the method will return
+     * @param drawPositions 
+     */
     private void drawAtPoints(List<Point> drawPositions)
     {
         //Loop through all the points where we can draw a shape, and if there is still a shape in the listView that has not been drawn, draw it
@@ -198,15 +214,33 @@ public class DrawWindowController implements Initializable
         Shape selectedShape = (Shape)comboBxShapeSelect.getValue(); //Get the selected shape
         if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
         {
+            Shape addShape = new Shape(selectedShape);
+            ShapeInfo si = new ShapeInfo();
+            
             int size = Integer.parseInt(txtFieldSize.getText());
-            selectedShape.setSize(size);
+            addShape.setSize(size);
+            
+            si.setFillColor(clrPickerFill.getValue());
+            si.setLineColor(clrPckerLine.getValue());
+            si.setFilled(chckBoxFilled.isSelected());
+        
+            if (isInt(txtBoxLineWidth.getText())) //If the line width selector contains a valid number, set it to be the line width of the shape
+            {
+                si.setLineWidth(Integer.parseInt(txtBoxLineWidth.getText()));
+            }
+            else    //Else, set it to a default value
+            {
+                si.setLineWidth(2);
+            }
+            
+            addShape.setShapeInfo(si);
             
             if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
             {
                 int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
                 for (int i = 0; i < amount; i++)
                 {
-                    listViewCollection.add(new Shape(selectedShape));
+                    listViewCollection.add(addShape);
                 }
             }
             else  //We only need to add one
