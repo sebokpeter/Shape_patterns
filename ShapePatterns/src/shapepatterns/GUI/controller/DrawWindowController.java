@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import shapepatterns.BLL.Circle;
+import shapepatterns.BLL.Drawer;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 import shapepatterns.BLL.ShapeInfo;
@@ -73,6 +74,7 @@ public class DrawWindowController implements Initializable
     private ObservableList<DrawStrategy> drawStrategy = FXCollections.observableArrayList(new ArrayList<>());
     
     private GraphicsContext context;
+    private Drawer drawer;
     private enum DrawStrategy {Grid, Cross, Random}
     
     @Override
@@ -83,6 +85,7 @@ public class DrawWindowController implements Initializable
         setUpListView();
         setUpDrawStrategy();
         setUpShapes();
+        drawer = new Drawer(context);
     }   
     
 
@@ -100,108 +103,17 @@ public class DrawWindowController implements Initializable
             switch(selection)
             {
                 case Cross:
-                    drawCrossPattern();
+                    drawer.drawCrossPattern(getSpacing(), listViewCollection);
                     break;
                 case Grid:
-                    drawGridPattern();
+                    drawer.drawGridPattern(getSpacing(), listViewCollection);
                     break;
                 case Random:
-                    drawRandomPattern();
+                    drawer.drawRandomPattern(listViewCollection);
                     break;
                 default:
                     System.out.println("Unknown strategy");
             }
-        }
-    }
-       
-    /**
-     * Draws a X pattern, made out of the shapes in the list view, centered on the center of the canvas
-     */
-    private void drawCrossPattern()
-    {
-        List<Point> drawPositions = new ArrayList();
-        int spacing = getSpacing(); //Spacing between the shapes on the canvas
-        
-        //Select both axis of the matrix representing the canvas
-        for (int i = 0; i < canvas.getWidth(); i++)
-        {
-            for (int j = 0; j < canvas.getHeight(); j++)
-            {
-                if (i == j) //Get the ponts that are on the axis (\)
-                {
-                    if (i % spacing == 0)
-                    {
-                        drawPositions.add(new Point(i - spacing, j)); //Offset the point to be centered
-                        continue;
-                    }
-                }
-                if (i + j == canvas.getWidth()) //Get the points that are on the opposite axis (/)
-                {
-                    if (i % spacing == 0)
-                    {
-                        drawPositions.add(new Point(i - spacing, j));
-                        continue;
-                    }
-                }
-            }
-        }
-
-        //Loop through all the points where we can draw a shape, and if there is still a shape in the listView that has not been drawn, draw it
-        drawAtPoints(drawPositions);
-    }
-
-    private void drawGridPattern()
-    {
-        List<Point> drawPositions = new ArrayList();
-        int spacing = getSpacing(); //Spacing between the shapes on the canvas
-        
-        for (int i = 0; i < canvas.getHeight(); i++)    //Go ffrom top to bottom, and select each correct row
-        {
-            if (i % spacing == 0)   //We are in a corect row
-            {
-                for (int j = 0; j < canvas.getWidth(); j+=spacing) //Go through the row,
-                {
-                    drawPositions.add(new Point(i, j));
-                }
-            }
-        }
-        
-        drawAtPoints(drawPositions);
-    }
-
-    private void drawRandomPattern()
-    {
-        Random random = new Random();
-        
-        for (Shape shape : listViewCollection)
-        {
-            double rX = random.nextInt((int)canvas.getWidth());
-            double rY = random.nextInt((int)canvas.getHeight());
-            
-            shape.draw(context, rX, rY);
-        }
-    }
-    
-    /**
-     * Given a list of points, this method will draw the shapes found in the listViewCollection. 
-     * If there are no more shapes in the listViewCollection, or more points in the supplied list, the method will return
-     * @param drawPositions 
-     */
-    private void drawAtPoints(List<Point> drawPositions)
-    {
-        //Loop through all the points where we can draw a shape, and if there is still a shape in the listView that has not been drawn, draw it
-        for (int i = 0; i < drawPositions.size(); i++)
-        {
-            if (i == listViewCollection.size())
-            {
-                return;
-            }
-            
-            Shape s = listViewCollection.get(i);
-            double x = drawPositions.get(i).getX();
-            double y = drawPositions.get(i).getY();
-            
-            s.draw(context, x, y);
         }
     }
     
@@ -364,6 +276,7 @@ public class DrawWindowController implements Initializable
         shapes.add(Shape.getSquare());
         shapes.add(Shape.getTriangle());
         shapes.add(Shape.getCircle());
+        shapes.add(Shape.getHexagon());
         shapes.add(Shape.getPentagon());
     }
     /**

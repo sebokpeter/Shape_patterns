@@ -245,6 +245,13 @@ public class Shape implements Drawable
     }
 
     public static Shape getHexagon(){
+        
+        double x = 0;
+        double y = 0 ;
+        Shape h = new Shape("Hexagon");
+        h.addPoint(new Point(x, y));
+        h.addPoint(new Point(x, y+25));
+        h.addPoint(new Point(x+25, y+40));
         h.addPoint(new Point(x+50, y+25));
         h.addPoint(new Point(x+50, y));
         h.addPoint(new Point(x+25, y-15));
