@@ -140,7 +140,7 @@ public class Shape implements Drawable
      */
     private void modifySize(double size)
     {
-        for (Point point : original)
+        for (Point point : drawPoints)
         {
             point.applySize(size);
         }
@@ -176,10 +176,8 @@ public class Shape implements Drawable
     @Override
     public void draw(GraphicsContext context, double x, double y)
     {
-
-        
-        modifySize(size);       //Apply the size 
         drawPoints = copyList();    //Create a copy of the original list
+        modifySize(size);       //Apply the size 
         updatePoints(x, y);     //Move the points of the selected position (x,y), while keeping the shape
         
         if (shapeInfo.isFilled())
@@ -197,7 +195,6 @@ public class Shape implements Drawable
             context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());       
         }
     }
-    
     
     /**
      * Make a triangle
@@ -234,6 +231,10 @@ public class Shape implements Drawable
         return s;
     }
     
+    /**
+     * make a circle
+     * @return 
+     */
     public static Shape getCircle()
     {
         double x = 0;
@@ -244,6 +245,10 @@ public class Shape implements Drawable
         return s;
     }
 
+    /**
+     * Make a hexagon
+     * @return 
+     */
     public static Shape getHexagon(){
         
         double x = 0;
@@ -257,8 +262,12 @@ public class Shape implements Drawable
         h.addPoint(new Point(x+25, y-15));
         
         return h;
-        
     }
+    
+    /**
+     * Make a pentagon
+     * @return 
+     */
     public static Shape getPentagon(){
         
         double x = 0;
@@ -270,8 +279,6 @@ public class Shape implements Drawable
         p.addPoint(new Point(x+125, y+75));
         p.addPoint(new Point(x+100, y));
         
-        
         return p;
-        
     }
 }

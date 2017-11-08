@@ -7,8 +7,6 @@ package shapepatterns.GUI.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +26,6 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 import shapepatterns.BLL.Circle;
 import shapepatterns.BLL.Drawer;
-import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 import shapepatterns.BLL.ShapeInfo;
 

@@ -42,13 +42,11 @@ public class Point implements Drawable
         this.y += y;
     }
     
-    
     public void applySize(double size)
     {
         this.x *= size;
         this.y *= size;
     }
-    
     
     public double getX()
     {
