@@ -5,7 +5,6 @@
  */
 package shapepatterns.GUI.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 import shapepatterns.BLL.Circle;
 import shapepatterns.BLL.Drawer;
 import shapepatterns.BLL.Shape;
@@ -75,7 +73,7 @@ public class DrawWindowController implements Initializable
     @FXML
     private TextField txtBoxLineWidth;
     @FXML
-    private ColorPicker clrPckerLine;
+    private ColorPicker clrPickerLine;
     @FXML
     private ColorPicker clrPickerFill;
     @FXML
@@ -103,6 +101,9 @@ public class DrawWindowController implements Initializable
         setUpDrawStrategy();
         setUpShapes();
         drawer = new Drawer(context);
+        
+        clrPickerFill.setValue(Color.BLACK);
+        clrPickerLine.setValue(Color.BLACK);
     }   
     
     /**
@@ -206,7 +207,7 @@ public class DrawWindowController implements Initializable
         txtFieldSize.setText(Integer.toString(size));
         txtBoxLineWidth.setText(Integer.toString(lineWidth));
         chckBoxFilled.setSelected(isFilled);
-        clrPckerLine.setValue(lineColor);
+        clrPickerLine.setValue(lineColor);
         clrPickerFill.setValue(fillColor);
     }
     
@@ -290,7 +291,7 @@ public class DrawWindowController implements Initializable
             addShape.setSize(size);
             
             si.setFillColor(clrPickerFill.getValue());
-            si.setLineColor(clrPckerLine.getValue());
+            si.setLineColor(clrPickerLine.getValue());
             si.setFilled(chckBoxFilled.isSelected());
         
             if (isInt(txtBoxLineWidth.getText())) //If the line width selector contains a valid number, set it to be the line width of the shape

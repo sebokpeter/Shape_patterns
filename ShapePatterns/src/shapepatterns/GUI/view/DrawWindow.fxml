@@ -30,7 +30,7 @@
                   <TextField fx:id="txtFieldAddAmount" layoutX="105.0" layoutY="299.0" prefHeight="31.0" prefWidth="65.0" text="1" />
                   <CheckBox fx:id="chckBoxFilled" layoutX="23.0" layoutY="304.0" mnemonicParsing="false" text="Filled" />
                   <TextField fx:id="txtBoxLineWidth" layoutX="111.0" layoutY="128.0" prefHeight="31.0" prefWidth="63.0" />
-                  <ColorPicker fx:id="clrPckerLine" layoutX="20.0" layoutY="194.0" />
+                  <ColorPicker fx:id="clrPickerLine" layoutX="20.0" layoutY="194.0" />
                   <Label layoutX="22.0" layoutY="133.0" text="Line width:" />
                   <Label layoutX="22.0" layoutY="173.0" text="Line color" />
                   <ColorPicker fx:id="clrPickerFill" layoutX="21.0" layoutY="263.0" />
