@@ -58,6 +58,11 @@ public class Shape implements Drawable
         this.shapeInfo = si;
     }
     
+    public ShapeInfo getShapeInfo()
+    {
+        return this.shapeInfo;
+    }
+    
     public int getSize()
     {
         return size;
@@ -161,13 +166,6 @@ public class Shape implements Drawable
         
         return newList;
     }
-    
-    
-    protected ShapeInfo getShapeInfo()
-    {
-        return this.shapeInfo;
-    }
-    
     
     /**
      * Draw a polygon

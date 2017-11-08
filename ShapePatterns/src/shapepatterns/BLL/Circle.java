@@ -5,6 +5,8 @@
  */
 package shapepatterns.BLL;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -29,9 +31,21 @@ public class Circle extends Shape
         this.shapeInfo = si;
     }
     
+    public ShapeInfo getShapeInfo()
+    {
+        return shapeInfo;
+    }
+    
     public void setSize(int size)
     {
         this.size = size*100;
+    }
+    
+    public List<Point> getPoints()
+    {
+        List<Point> ol = new ArrayList<>();
+        ol.add(origin);
+        return ol;
     }
     
     @Override

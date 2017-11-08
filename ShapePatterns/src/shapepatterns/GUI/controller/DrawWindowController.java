@@ -5,6 +5,7 @@
  */
 package shapepatterns.GUI.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -27,6 +28,7 @@ import javafx.util.StringConverter;
 import shapepatterns.BLL.Circle;
 import shapepatterns.BLL.Drawer;
 import shapepatterns.BLL.Shape;
+import shapepatterns.BLL.ShapeIO.ShapeWriter;
 import shapepatterns.BLL.ShapeInfo;
 
 /**
@@ -65,6 +67,8 @@ public class DrawWindowController implements Initializable
     private ColorPicker clrPckerLine;
     @FXML
     private ColorPicker clrPickerFill;
+    @FXML
+    private Button btnSave;
     
     private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<>());
@@ -121,33 +125,10 @@ public class DrawWindowController implements Initializable
     @FXML
     private void btnAddClick(ActionEvent event)
     {
-        Shape selectedShape = (Shape)comboBxShapeSelect.getValue(); //Get the selected shape
-        if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
+        Shape addShape = createShapeFromSetting();
+        if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
         {
-            Shape addShape = Circle.class.isInstance(selectedShape) ? new Circle("Circle", 1) : new Shape(selectedShape);
-            ShapeInfo si = new ShapeInfo();
-            
-            int size = Integer.parseInt(txtFieldSize.getText());
-            addShape.setSize(size);
-            
-            si.setFillColor(clrPickerFill.getValue());
-            si.setLineColor(clrPckerLine.getValue());
-            si.setFilled(chckBoxFilled.isSelected());
-        
-            if (isInt(txtBoxLineWidth.getText())) //If the line width selector contains a valid number, set it to be the line width of the shape
-            {
-                si.setLineWidth(Integer.parseInt(txtBoxLineWidth.getText()));
-            }
-            else    //Else, set it to a default value
-            {
-                si.setLineWidth(2);
-            }
-            
-            addShape.setShapeInfo(si);
-            
-            if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
-            {
-                int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
+            int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
                 for (int i = 0; i < amount; i++)
                 {
                     listViewCollection.add(addShape);
@@ -155,13 +136,17 @@ public class DrawWindowController implements Initializable
             }
             else  //We only need to add one
             {
-                listViewCollection.add(new Shape(selectedShape));
+                listViewCollection.add(new Shape(addShape));
             }
-        }
-        else
-        {
-            System.out.println("Please write an integer you twat!");
-        }
+    }
+    
+    
+    @FXML
+    private void btnSaveClick(ActionEvent event) throws IOException
+    {
+        ShapeWriter writer = new ShapeWriter();
+        writer.createShapeFile(createShapeFromSetting());
+        System.out.println("");
     }
     
     /**
@@ -182,6 +167,45 @@ public class DrawWindowController implements Initializable
     private void btnClearClick(ActionEvent event)
     {
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+    
+    
+    /**
+     * Creates a shape based on the settings (fill color, line width etc)
+     * @return 
+     */
+    private Shape createShapeFromSetting()
+    {
+        Shape selectedShape = (Shape)comboBxShapeSelect.getValue(); //Get the selected shape
+        Shape addShape = null;
+        if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
+        {
+            addShape = Circle.class.isInstance(selectedShape) ? new Circle("Circle", 1) : new Shape(selectedShape);
+            ShapeInfo si = new ShapeInfo();
+            
+            int size = Integer.parseInt(txtFieldSize.getText());
+            addShape.setSize(size);
+            
+            si.setFillColor(clrPickerFill.getValue());
+            si.setLineColor(clrPckerLine.getValue());
+            si.setFilled(chckBoxFilled.isSelected());
+        
+            if (isInt(txtBoxLineWidth.getText())) //If the line width selector contains a valid number, set it to be the line width of the shape
+            {
+                si.setLineWidth(Integer.parseInt(txtBoxLineWidth.getText()));
+            }
+            else    //Else, set it to a default value
+            {
+                si.setLineWidth(2);
+            }
+            
+            addShape.setShapeInfo(si);
+        }
+        else
+        {
+            System.out.println("Please write an integer you twat!");
+        }
+        return addShape;
     }
     
     /**
