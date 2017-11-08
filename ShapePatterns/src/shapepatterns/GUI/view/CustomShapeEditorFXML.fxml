@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="560.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shapepatterns.GUI.controller.CustomShapeEditorFXMLController">
+   <children>
+      <SplitPane dividerPositions="0.31438127090301005" layoutX="87.0" layoutY="51.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <CheckBox layoutX="14.0" layoutY="101.0" mnemonicParsing="false" text="Fill" />
+                  <ColorPicker fx:id="clrPickerLine" layoutX="14.0" layoutY="168.0" />
+                  <ColorPicker fx:id="clrPickerFill" layoutX="14.0" layoutY="248.0" />
+                  <Label layoutX="14.0" layoutY="147.0" text="Line color" />
+                  <Label layoutX="14.0" layoutY="227.0" text="Fill color" />
+                  <Label layoutX="15.0" layoutY="14.0" text="Size: " />
+                  <Label layoutX="14.0" layoutY="58.0" text="Line width: " />
+                  <Label layoutX="15.0" layoutY="311.0" text="Points: " />
+                  <Label fx:id="lblPointCounter" layoutX="62.0" layoutY="311.0" />
+                  <TextField fx:id="txtBoxSize" layoutX="107.0" layoutY="9.0" prefHeight="31.0" prefWidth="117.0" />
+                  <TextField fx:id="txtBoxLineWidth" layoutX="107.0" layoutY="53.0" prefHeight="31.0" prefWidth="117.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="647.0" prefWidth="543.0">
+               <children>
+                  <Canvas height="500.0" layoutX="14.0" layoutY="14.0" width="500.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
