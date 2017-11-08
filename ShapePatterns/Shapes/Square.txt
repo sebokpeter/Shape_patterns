@@ -1,0 +1,10 @@
+fillColor: 0x331a80ff
+size: 101
+name: Square
+filled: true
+lineColor: 0x990000ff
+lineWidth: 10
+p0: 0.0; 0.0
+p1: 50.0; 0.0
+p2: 50.0; -50.0
+p3: 0.0; -50.0

@@ -25,6 +25,12 @@ public class Circle extends Shape
         super(name, size);
         origin = new Point(0, 0);
     }
+
+    public Circle(Circle c)
+    {
+        this.origin = c.getOrigin();
+        this.size = c.getSize();
+    }
     
     public void setShapeInfo(ShapeInfo si)
     {
@@ -34,6 +40,11 @@ public class Circle extends Shape
     public ShapeInfo getShapeInfo()
     {
         return shapeInfo;
+    }
+    
+    public Point getOrigin()
+    {
+        return this.origin;
     }
     
     public void setSize(int size)

@@ -22,7 +22,13 @@ public class Shape implements Drawable
     private List<Point> drawPoints; //This list is used to draw the shape to the correct position
     private String name;
     private int size;
-    private ShapeInfo shapeInfo;
+    private ShapeInfo shapeInfo; //A collection of different parameters (line width, is the shape filled, line and fill color)
+    private ShapeType type;
+    public Shape()
+    {
+        this.original = new ArrayList();
+        this.drawPoints = new ArrayList();
+    }
     
     public Shape(String name)
     {
@@ -88,6 +94,10 @@ public class Shape implements Drawable
         original.add(p);
     }
     
+    public void addPoint(List<Point> points)
+    {
+        original.addAll(points);
+    }
     
     public List<Point> getPoints()
     {
@@ -233,11 +243,11 @@ public class Shape implements Drawable
      * make a circle
      * @return 
      */
-    public static Shape getCircle()
+    public static Circle getCircle()
     {
         double x = 0;
         double y = 0;
-        Shape s = new Circle("Circle", 0);
+        Circle s = new Circle("Circle", 0);
         s.addPoint(new Point(x, y));
         
         return s;

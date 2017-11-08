@@ -14,14 +14,14 @@ import javafx.scene.paint.Color;
 public class ShapeInfo
 {
     private int lineWidth;
-    private boolean filled;
+    private boolean isFilled;
     private Color lineColor;
     private Color fillColor;
 
     public ShapeInfo(int lineWidth, boolean filled, Color lineColor, Color fillColor)
     {
         this.lineWidth = lineWidth;
-        this.filled = filled;
+        this.isFilled = filled;
         this.lineColor = lineColor;
         this.fillColor = fillColor;
     }
@@ -43,12 +43,12 @@ public class ShapeInfo
 
     public boolean isFilled()
     {
-        return filled;
+        return isFilled;
     }
 
     public void setFilled(boolean filled)
     {
-        this.filled = filled;
+        this.isFilled = filled;
     }
 
     public Color getLineColor()

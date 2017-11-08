@@ -5,6 +5,7 @@
  */
 package shapepatterns.GUI.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,13 +24,19 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.PopupWindow;
+import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import shapepatterns.BLL.Circle;
 import shapepatterns.BLL.Drawer;
 import shapepatterns.BLL.Shape;
+import shapepatterns.BLL.ShapeIO.ShapeReader;
 import shapepatterns.BLL.ShapeIO.ShapeWriter;
 import shapepatterns.BLL.ShapeInfo;
+import shapepatterns.BLL.ShapeType;
 
 /**
  *
@@ -50,7 +57,7 @@ public class DrawWindowController implements Initializable
     @FXML
     private Canvas canvas;
     @FXML
-    private ComboBox<Shape> comboBxShapeSelect;
+    private ComboBox<ShapeType> comboBxShapeSelect;
     @FXML
     private ComboBox<DrawStrategy> comboBxDrawStrategy; 
     @FXML
@@ -69,14 +76,17 @@ public class DrawWindowController implements Initializable
     private ColorPicker clrPickerFill;
     @FXML
     private Button btnSave;
+    @FXML
+    private Button btnLoadShape;
+    
+    private enum DrawStrategy {Grid, Cross, Random}
     
     private ObservableList<Shape> listViewCollection = FXCollections.observableArrayList(new ArrayList<>());
-    private ObservableList<Shape> shapes = FXCollections.observableArrayList(new ArrayList<>());
+    private ObservableList<ShapeType> shapes = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<DrawStrategy> drawStrategy = FXCollections.observableArrayList(new ArrayList<>());
     
     private GraphicsContext context;
-    private Drawer drawer;
-    private enum DrawStrategy {Grid, Cross, Random}
+    private Drawer drawer;    
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -125,7 +135,7 @@ public class DrawWindowController implements Initializable
     @FXML
     private void btnAddClick(ActionEvent event)
     {
-        Shape addShape = createShapeFromSetting();
+        Shape addShape = createShapeFromSettings();
         if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
         {
             int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
@@ -140,13 +150,58 @@ public class DrawWindowController implements Initializable
             }
     }
     
-    
+    /**
+     * Saves a shape into a file
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void btnSaveClick(ActionEvent event) throws IOException
     {
         ShapeWriter writer = new ShapeWriter();
-        writer.createShapeFile(createShapeFromSetting());
+        writer.createShapeFile(createShapeFromSettings());
         System.out.println("");
+    }
+    
+    
+    /**
+     * Loads a saved shape from a file
+     * @param event
+     * @throws Exception 
+     */
+    @FXML
+    private void btnLoadShapeClick(ActionEvent event) throws Exception
+    {
+        ShapeReader reader = new ShapeReader();
+        Window stage;
+        stage = new PopupWindow(){};
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Shape File");
+        Shape s = reader.createShape(fileChooser.showOpenDialog(stage));
+        if (Circle.class.isInstance(s))
+        {
+            s = new Circle((Circle)s);
+        }
+        updateUIWithShapeInfo(s);
+    }
+    
+    /**
+     * Applies the parameters of a give Shape onto the UI, so we can add as many of this shapes as we would like
+     * @param s 
+     */
+    private void updateUIWithShapeInfo(Shape s)
+    {
+        int size = s.getSize();
+        int lineWidth = s.getShapeInfo().getLineWidth();
+        Color lineColor = s.getShapeInfo().getLineColor();
+        Color fillColor = s.getShapeInfo().getFillColor();
+        boolean isFilled = s.getShapeInfo().isFilled();
+        
+        txtFieldSize.setText(Integer.toString(size));
+        txtBoxLineWidth.setText(Integer.toString(lineWidth));
+        chckBoxFilled.setSelected(isFilled);
+        clrPckerLine.setValue(lineColor);
+        clrPickerFill.setValue(fillColor);
     }
     
     /**
@@ -169,14 +224,41 @@ public class DrawWindowController implements Initializable
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
     
-    
     /**
      * Creates a shape based on the settings (fill color, line width etc)
      * @return 
      */
-    private Shape createShapeFromSetting()
+    private Shape createShapeFromSettings()
     {
-        Shape selectedShape = (Shape)comboBxShapeSelect.getValue(); //Get the selected shape
+        ShapeType selection = comboBxShapeSelect.getValue();
+        Shape selectedShape = null;
+        if (selection == null)
+        {
+            System.out.println("No shape");
+            return null;
+        }
+        else
+        {
+            switch(selection)
+            {
+                case Triangle:
+                    selectedShape = Shape.getTriangle();
+                    break;
+                case Square:
+                    selectedShape = Shape.getSquare();
+                    break;
+                case Circle:
+                    selectedShape = new Circle(Shape.getCircle());
+                    break;
+                case Hexagon:
+                    selectedShape = Shape.getHexagon();
+                    break;
+                case Pentagon:
+                    selectedShape = Shape.getPentagon();
+                    break;
+            }
+        }
+        
         Shape addShape = null;
         if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
         {
@@ -230,21 +312,6 @@ public class DrawWindowController implements Initializable
     private void setUpComboBox()
     {
         comboBxShapeSelect.setItems(shapes);
-        comboBxShapeSelect.setConverter(new StringConverter<Shape>()
-        {
-            @Override
-            public String toString(Shape object)
-            {
-                return object.getName();
-            }
-
-            @Override
-            public Shape fromString(String string)
-            {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        });
     }
     
     /**
@@ -294,11 +361,7 @@ public class DrawWindowController implements Initializable
      */
     private void setUpShapes()
     {
-        shapes.add(Shape.getSquare());
-        shapes.add(Shape.getTriangle());
-        shapes.add(Shape.getCircle());
-        shapes.add(Shape.getHexagon());
-        shapes.add(Shape.getPentagon());
+        shapes.addAll(ShapeType.values());
     }
     /**
      * Checks if a string can be parsed into a integer

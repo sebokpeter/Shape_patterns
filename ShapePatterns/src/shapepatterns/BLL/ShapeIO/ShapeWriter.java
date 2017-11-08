@@ -117,7 +117,7 @@ public class ShapeWriter
             System.out.println(key + ": " + Double.toString(d1) + "; " + Double.toString(d2));
         }
         
-        File f = new File("Shapes/"+fileName);
+        File f = new File("Shapes/" + fileName + ".txt");
         
         int n = 1;
         while(f.exists())   //See if a file with this name already exist

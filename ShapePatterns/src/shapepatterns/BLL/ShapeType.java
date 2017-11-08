@@ -5,13 +5,11 @@
  */
 package shapepatterns.BLL;
 
-import javafx.scene.canvas.GraphicsContext;
-
 /**
- * Defines a method to draw something onto the screen
+ * A collection of possible shapes. Used for displaying the selection comboBox.
  * @author sebok
  */
-public interface Drawable
+public enum ShapeType
 {
-    public void draw(GraphicsContext context, double x, double y);
+    Triangle, Square, Circle, Hexagon, Pentagon
 }

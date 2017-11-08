@@ -36,6 +36,7 @@
                   <ColorPicker fx:id="clrPickerFill" layoutX="21.0" layoutY="263.0" />
                   <Label layoutX="21.0" layoutY="242.0" text="Fill color" />
                   <Button fx:id="btnSave" layoutX="21.0" layoutY="403.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="31.0" prefWidth="151.0" text="Save shape" />
+                  <Button fx:id="btnLoadShape" layoutX="22.0" layoutY="444.0" mnemonicParsing="false" onAction="#btnLoadShapeClick" prefHeight="31.0" prefWidth="150.0" text="Load shape" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="628.0" prefWidth="293.0">
