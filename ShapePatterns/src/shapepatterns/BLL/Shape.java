@@ -180,6 +180,8 @@ public class Shape implements Drawable
     /**
      * Draw a polygon
      * @param context The lines will be drawn on this 
+     * @param x 
+     * @param y 
      */
     @Override
     public void draw(GraphicsContext context, double x, double y)
@@ -247,7 +249,9 @@ public class Shape implements Drawable
     {
         double x = 0;
         double y = 0;
+        
         Circle s = new Circle(ShapeType.Circle, 0);
+        
         s.addPoint(new Point(x, y));
         
         return s;
@@ -261,7 +265,9 @@ public class Shape implements Drawable
         
         double x = 0;
         double y = 0 ;
+        
         Shape h = new Shape(ShapeType.Hexagon);
+        
         h.addPoint(new Point(x, y));
         h.addPoint(new Point(x, y+25));
         h.addPoint(new Point(x+25, y+40));

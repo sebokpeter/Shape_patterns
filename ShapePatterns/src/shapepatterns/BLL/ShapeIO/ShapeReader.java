@@ -47,7 +47,7 @@ public class ShapeReader
         
         try
         {
-            if (!file.getPath().endsWith(".txt"))
+            if (!file.getPath().endsWith(".shape"))
             {
                 throw new Exception("Wrong file type");
             }
