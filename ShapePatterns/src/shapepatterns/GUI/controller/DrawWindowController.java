@@ -26,6 +26,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import shapepatterns.BLL.Circle;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 import shapepatterns.BLL.ShapeInfo;
@@ -214,7 +215,7 @@ public class DrawWindowController implements Initializable
         Shape selectedShape = (Shape)comboBxShapeSelect.getValue(); //Get the selected shape
         if (isInt(txtFieldSize.getText()) && selectedShape != null) //Check if there is a shape seleceted and a valid size has been entered
         {
-            Shape addShape = new Shape(selectedShape);
+            Shape addShape = Circle.class.isInstance(selectedShape) ? new Circle("Circle", 1) : new Shape(selectedShape);
             ShapeInfo si = new ShapeInfo();
             
             int size = Integer.parseInt(txtFieldSize.getText());
@@ -362,6 +363,7 @@ public class DrawWindowController implements Initializable
     {
         shapes.add(Shape.getSquare());
         shapes.add(Shape.getTriangle());
+        shapes.add(Shape.getCircle());
     }
     /**
      * Checks if a string can be parsed into a integer

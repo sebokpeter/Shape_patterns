@@ -24,6 +24,12 @@ public class Point implements Drawable
         this.x = x;
         this.y = y;
     }
+
+    public Point(Point p)
+    {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
     
     /**
      * By adding the new values to the points, they keep their relative offset, and thus their shape

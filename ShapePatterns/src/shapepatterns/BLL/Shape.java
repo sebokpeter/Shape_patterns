@@ -161,6 +161,14 @@ public class Shape implements Drawable
         
         return newList;
     }
+    
+    
+    protected ShapeInfo getShapeInfo()
+    {
+        return this.shapeInfo;
+    }
+    
+    
     /**
      * Draw a polygon
      * @param context The lines will be drawn on this 
@@ -185,7 +193,7 @@ public class Shape implements Drawable
         {
             context.setStroke(shapeInfo.getLineColor());
             context.setLineWidth(shapeInfo.getLineWidth());
-            
+
             context.strokePolygon(getXCoordinates(), getYCoordinates(), original.size());       
         }
     }
@@ -225,4 +233,15 @@ public class Shape implements Drawable
         
         return s;
     }
+    
+    public static Shape getCircle()
+    {
+        double x = 0;
+        double y = 0;
+        Shape s = new Circle("Circle", 0);
+        s.addPoint(new Point(x, y));
+        
+        return s;
+    }
+
 }
