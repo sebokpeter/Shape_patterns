@@ -364,6 +364,7 @@ public class DrawWindowController implements Initializable
         shapes.add(Shape.getSquare());
         shapes.add(Shape.getTriangle());
         shapes.add(Shape.getCircle());
+        shapes.add(Shape.getPentagon());
     }
     /**
      * Checks if a string can be parsed into a integer

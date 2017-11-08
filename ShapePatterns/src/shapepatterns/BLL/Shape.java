@@ -244,4 +244,27 @@ public class Shape implements Drawable
         return s;
     }
 
+    public static Shape getHexagon(){
+        h.addPoint(new Point(x+50, y+25));
+        h.addPoint(new Point(x+50, y));
+        h.addPoint(new Point(x+25, y-15));
+        
+        return h;
+        
+    }
+    public static Shape getPentagon(){
+        
+        double x = 0;
+        double y = 0 ;
+        Shape p = new Shape("Pentagon");
+        p.addPoint(new Point(x, y));
+        p.addPoint(new Point(x-25, y+75));
+        p.addPoint(new Point(x+50, y+125));
+        p.addPoint(new Point(x+125, y+75));
+        p.addPoint(new Point(x+100, y));
+        
+        
+        return p;
+        
+    }
 }
