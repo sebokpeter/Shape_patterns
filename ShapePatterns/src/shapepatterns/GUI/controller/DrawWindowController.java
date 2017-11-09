@@ -92,6 +92,8 @@ public class DrawWindowController implements Initializable
     private GraphicsContext context;
     private Drawer drawer;    
     
+    private Shape currentCustomShape;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -102,7 +104,7 @@ public class DrawWindowController implements Initializable
         setUpShapes();
         drawer = new Drawer(context);
         
-        clrPickerFill.setValue(Color.BLACK);
+        clrPickerFill.setValue(Color.BLACK);    //Set color values to black by default
         clrPickerLine.setValue(Color.BLACK);
     }   
     
@@ -142,6 +144,11 @@ public class DrawWindowController implements Initializable
     private void btnAddClick(ActionEvent event)
     {
         Shape addShape = createShapeFromSettings();
+        if (addShape == null)
+        {
+            System.out.println("Selected shape does not exist");
+            return;
+        }
         if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
         {
             int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
@@ -184,9 +191,13 @@ public class DrawWindowController implements Initializable
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Shape File");
         Shape s = reader.createShape(fileChooser.showOpenDialog(stage));
-        if (Circle.class.isInstance(s))
+        if (s.getType() == ShapeType.Circle)    //Check to see if the shape is a circele, and if it is, apply the correct setting
         {
             s = new Circle((Circle)s);
+        }
+        else if (s.getType() == ShapeType.Custom)    //If it is a custom shape, set the field
+        {
+            currentCustomShape = s;
         }
         updateUIWithShapeInfo(s);
     }
@@ -232,11 +243,15 @@ public class DrawWindowController implements Initializable
     }
     
     
-    
     @FXML
     private void btnCustomShapeEditClick(ActionEvent event) throws IOException
     {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("shapepatterns/GUI/view/CustomShapeEditorFXML.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("shapepatterns/GUI/view/CustomShapeEditorFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader((getClass().getClassLoader().getResource("shapepatterns/GUI/view/CustomShapeEditorFXML.fxml")));
+        Parent root = loader.load();
+        
+        CustomShapeEditorFXMLController controller = loader.getController();
+        controller.setParentWindow(this);
         
         Scene scene = new Scene(root);
         
@@ -245,6 +260,14 @@ public class DrawWindowController implements Initializable
         stage.setScene(scene);
         stage.show();
     }
+
+    public void setCurrentCustomShape(Shape currentCustomShape)
+    {
+        this.currentCustomShape = currentCustomShape;
+        updateUIWithShapeInfo(currentCustomShape);
+    }
+    
+    
     
     /**
      * Creates a shape based on the settings (fill color, line width etc)
@@ -278,6 +301,12 @@ public class DrawWindowController implements Initializable
                 case Pentagon:
                     selectedShape = Shape.getPentagon();
                     break;
+                case Custom:
+                    if (currentCustomShape != null)
+                    {
+                        selectedShape = currentCustomShape;
+                    }
+                    break;
             }
         }
         
@@ -304,12 +333,14 @@ public class DrawWindowController implements Initializable
             }
             
             addShape.setShapeInfo(si);
+            return addShape;
         }
         else
         {
             System.out.println("Please write an integer you twat!");
         }
-        return addShape;
+        
+        return null;
     }
     
     /**

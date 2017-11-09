@@ -24,6 +24,7 @@
                   <Label layoutX="13.0" layoutY="272.0" text="Points: " />
                   <Label fx:id="lblPointCounter" layoutX="62.0" layoutY="272.0" />
                   <TextField fx:id="txtBoxLineWidth" layoutX="105.0" layoutY="14.0" onAction="#txtBoxLineWidthAction" prefHeight="31.0" prefWidth="117.0" />
+                  <Button layoutX="12.0" layoutY="513.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="31.0" prefWidth="213.0" text="Save shape" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="647.0" prefWidth="543.0">

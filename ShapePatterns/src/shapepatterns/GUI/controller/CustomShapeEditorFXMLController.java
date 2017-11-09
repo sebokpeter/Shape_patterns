@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import shapepatterns.BLL.Point;
 import shapepatterns.BLL.Shape;
 import shapepatterns.BLL.ShapeInfo;
+import shapepatterns.BLL.ShapeType;
 
 /**
  * FXML Controller class
@@ -52,6 +53,8 @@ public class CustomShapeEditorFXMLController implements Initializable
     private List<Point> points;
     ShapeInfo si;
     
+    DrawWindowController parent;
+    
     /**
      * Initializes the controller class.
      */
@@ -65,6 +68,7 @@ public class CustomShapeEditorFXMLController implements Initializable
         pointCount = 0;
         si = new ShapeInfo();
         customShape.setShapeInfo(si);
+        customShape.setType(ShapeType.Custom);
         
         clrPickerFill.setValue(Color.BLACK);
         clrPickerLine.setValue(Color.BLACK);
@@ -106,7 +110,10 @@ public class CustomShapeEditorFXMLController implements Initializable
         clear();
         
         drawPoints();
-        customShape.draw(context, dX, dY);
+        if (dX != null && dY != null)
+        {
+            customShape.draw(context, dX, dY);
+        }
     }
 
     /**
@@ -240,4 +247,31 @@ public class CustomShapeEditorFXMLController implements Initializable
         pointCount = 0;
         lblPointCounter.setText(Integer.toString(pointCount));
     }
+    
+    public void setParentWindow(DrawWindowController parent)
+    {
+        this.parent = parent;
+    }
+
+    @FXML
+    private void btnSaveClick(ActionEvent event) throws Exception
+    {
+        if (customShape == null || si == null)
+        {
+            throw new Exception("Shape or ShapeInfo not initialized");
+        }
+        
+        //If the color have not been set, just set the to their default value
+        if (si.getFillColor() == null)
+        {
+            si.setFillColor(clrPickerFill.getValue());
+        }
+        if (si.getLineColor()== null)
+        {
+            si.setLineColor(clrPickerLine.getValue());
+        }
+        parent.setCurrentCustomShape(customShape);
+    }
+    
+
 }

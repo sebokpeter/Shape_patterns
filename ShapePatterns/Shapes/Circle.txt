@@ -1,7 +1,0 @@
-fillColor: 0x4d66ccff
-size: 1
-name: Circle
-filled: true
-lineColor: 0x000000ff
-lineWidth: 21
-p0: 0.0; 0.0
