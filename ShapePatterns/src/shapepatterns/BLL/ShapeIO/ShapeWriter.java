@@ -96,7 +96,7 @@ public class ShapeWriter
         int n = 1;
         while(f.exists())   //See if a file with this name already exist
         {
-           f = new File("Shapes/"+fileName + Integer.toString(n) + ".txt"); //If is does, then append a number to its end, so we dont overwite already existing file
+           f = new File("Shapes/"+fileName + Integer.toString(n) + ".shape"); //If is does, then append a number to its end, so we dont overwite already existing file
            n++;
         }
         

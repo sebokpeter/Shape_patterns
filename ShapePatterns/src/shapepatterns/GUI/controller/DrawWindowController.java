@@ -19,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -193,7 +192,7 @@ public class DrawWindowController implements Initializable
         Shape s = reader.createShape(fileChooser.showOpenDialog(stage));
         if (s.getType() == ShapeType.Circle)    //Check to see if the shape is a circele, and if it is, apply the correct setting
         {
-            s = new Circle((Circle)s);
+            s = new Circle(s);
         }
         else if (s.getType() == ShapeType.Custom)    //If it is a custom shape, set the field
         {
