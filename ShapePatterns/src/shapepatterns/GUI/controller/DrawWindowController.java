@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -51,19 +52,11 @@ public class DrawWindowController implements Initializable
     @FXML
     private ListView<Shape> lstViewShapes;
     @FXML
-    private Button btnAdd;
-    @FXML
-    private Button btnDraw;
-    @FXML
-    private Button btnClear;
-    @FXML
     private Canvas canvas;
     @FXML
     private ComboBox<ShapeType> comboBxShapeSelect;
     @FXML
     private ComboBox<DrawStrategy> comboBxDrawStrategy; 
-    @FXML
-    private Button btnListClear;
     @FXML
     private TextField txtFieldAddAmount;
     @FXML
@@ -77,11 +70,17 @@ public class DrawWindowController implements Initializable
     @FXML
     private ColorPicker clrPickerFill;
     @FXML
-    private Button btnSave;
+    private Label lblTriangleCount;
     @FXML
-    private Button btnLoadShape;
+    private Label lblSquareCount;
     @FXML
-    private Button btnCustomShapeEdit;
+    private Label lblHexagonCount;
+    @FXML
+    private Label lblPentagonCount;
+    @FXML
+    private Label lblCustomCount;
+    @FXML
+    private Label lblCircleCount;
 
     private enum DrawStrategy {Grid, Cross, Random}
     
@@ -113,7 +112,7 @@ public class DrawWindowController implements Initializable
      * @param event 
      */
     @FXML
-    private void btnDrawClick(ActionEvent event)
+     private void btnDrawClick(ActionEvent event)
     {
         DrawStrategy selection = comboBxDrawStrategy.getValue();
         
@@ -133,6 +132,8 @@ public class DrawWindowController implements Initializable
                 default:
                     System.out.println("Unknown strategy");
             }
+            
+            updateLabels();
         }
     }
     
@@ -152,15 +153,15 @@ public class DrawWindowController implements Initializable
         if (isInt(txtFieldAddAmount.getText())) //Check if we need to add more than one shape to the list view
         {
             int amount = Integer.parseInt(txtFieldAddAmount.getText()); //If yes, how much
-                for (int i = 0; i < amount; i++)
-                {
-                    listViewCollection.add(addShape);
-                }
-            }
-            else  //We only need to add one
+            for (int i = 0; i < amount; i++)
             {
-                listViewCollection.add(new Shape(addShape));
+                listViewCollection.add(addShape);
             }
+        }
+        else  //We only need to add one
+        {
+            listViewCollection.add(new Shape(addShape));
+        }
     }
     
     /**
@@ -175,7 +176,6 @@ public class DrawWindowController implements Initializable
         writer.createShapeFile(createShapeFromSettings());
         System.out.println("");
     }
-    
     
     /**
      * Loads a saved shape from a file
@@ -240,9 +240,10 @@ public class DrawWindowController implements Initializable
     private void btnClearClick(ActionEvent event)
     {
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawer.resetLabelCounts();
+        updateLabels();
     }
-    
-    
+
     @FXML
     private void btnCustomShapeEditClick(ActionEvent event) throws IOException
     {
@@ -266,8 +267,6 @@ public class DrawWindowController implements Initializable
         this.currentCustomShape = currentCustomShape;
         updateUIWithShapeInfo(currentCustomShape);
     }
-    
-    
     
     /**
      * Creates a shape based on the settings (fill color, line width etc)
@@ -337,10 +336,9 @@ public class DrawWindowController implements Initializable
         }
         else
         {
-            System.out.println("Please write an integer you twat!");
+            System.out.println("Please write an integer you twat, or check your shape!");
+            return null;
         }
-        
-        return null;
     }
     
     /**
@@ -399,7 +397,7 @@ public class DrawWindowController implements Initializable
         });
 
     }
-    
+
     /**
      * Populate the draw strategy comboBox
      */
@@ -415,6 +413,19 @@ public class DrawWindowController implements Initializable
     private void setUpShapes()
     {
         shapes.addAll(ShapeType.values());
+    }
+     
+    /**
+     * Updates the labels displaying the amount of shapes drawn
+     */
+    private void updateLabels()
+    {
+        drawer.updateLabel(ShapeType.Triangle, lblTriangleCount);
+        drawer.updateLabel(ShapeType.Square, lblSquareCount);
+        drawer.updateLabel(ShapeType.Circle, lblCircleCount);
+        drawer.updateLabel(ShapeType.Hexagon, lblHexagonCount);
+        drawer.updateLabel(ShapeType.Pentagon, lblPentagonCount);
+        drawer.updateLabel(ShapeType.Custom, lblCustomCount);
     }
     /**
      * Checks if a string can be parsed into a integer
@@ -433,4 +444,5 @@ public class DrawWindowController implements Initializable
             return false;
         }
     }
+   
 }

@@ -5,11 +5,13 @@
  */
 package shapepatterns.BLL;
 
+import com.sun.javaws.LaunchDownload;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 
 /**
  * This class is responsible for drawing on the canvas
@@ -19,6 +21,12 @@ public class Drawer
 {
     private GraphicsContext context;
     private Canvas canvas;
+    private int triangleCount;
+    private int squareCount;
+    private int circleCount;
+    private int hexCount;
+    private int pentagonCount;
+    private int customCount;
     
     public Drawer(GraphicsContext context)
     {
@@ -88,6 +96,7 @@ public class Drawer
             double rX = random.nextInt((int)canvas.getWidth());
             double rY = random.nextInt((int)canvas.getHeight());
             
+            countShapeTypes(shape.getType());
             shape.draw(context, rX, rY);
         }
     }
@@ -110,8 +119,69 @@ public class Drawer
             Shape s = shapesToDraw.get(i);
             double x = drawPositions.get(i).getX();
             double y = drawPositions.get(i).getY();
-            
+            countShapeTypes(s.getType());
+           
             s.draw(context, x, y);
         }
+    }
+    
+    private void countShapeTypes(ShapeType type)
+    {
+        switch(type)
+        {
+             case Triangle:
+                triangleCount++;
+                break;
+             case Square:
+                squareCount++;
+                break;
+            case Circle:
+                circleCount++; 
+                break;
+            case Hexagon:
+                hexCount++;
+                break;
+            case Pentagon:
+                pentagonCount++;
+                break;
+            case Custom:
+                customCount++;
+                break;   
+        }
+    }
+    
+    public void updateLabel(ShapeType type, Label lbl)
+    {
+        switch(type)
+        {
+             case Triangle:
+                lbl.setText(Integer.toString(triangleCount));
+                break;
+             case Square:
+                lbl.setText(Integer.toString(squareCount));
+                break;
+            case Circle:
+                lbl.setText(Integer.toString(circleCount));
+                break;
+            case Hexagon:
+                lbl.setText(Integer.toString(hexCount));
+                break;
+            case Pentagon:
+                lbl.setText(Integer.toString(pentagonCount));
+                break;
+            case Custom:
+                lbl.setText(Integer.toString(customCount));
+                break;   
+        }
+    }
+
+    public void resetLabelCounts()
+    {
+        triangleCount = 0;
+        squareCount = 0;
+        circleCount = 0;
+        hexCount = 0;
+        pentagonCount = 0;
+        customCount = 0;
     }
 }
