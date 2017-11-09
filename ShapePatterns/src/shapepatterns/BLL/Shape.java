@@ -120,6 +120,11 @@ public class Shape implements Drawable
         return currentPoints;
     }
     
+    /**
+     * Returns the x coordinates of all of the points that make up this shape
+     * Used to draw a polygon
+     * @return 
+     */
     private double[] getXCoordinates()
     {
         double[] xCoords = new double[drawPoints.size()];
@@ -132,6 +137,11 @@ public class Shape implements Drawable
         return xCoords;
     }
     
+     /**
+     * Returns the y coordinates of all of the points that make up this shape
+     * Used to draw a polygon
+     * @return 
+     */
     private double[] getYCoordinates()
     {
         double[] yCoords = new double[drawPoints.size()];

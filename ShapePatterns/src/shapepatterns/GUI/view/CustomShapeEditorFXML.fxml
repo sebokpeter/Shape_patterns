@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="560.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shapepatterns.GUI.controller.CustomShapeEditorFXMLController">
+   <children>
+      <SplitPane dividerPositions="0.31438127090301005" layoutX="87.0" layoutY="51.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <CheckBox fx:id="chckBoxFill" layoutX="12.0" layoutY="62.0" mnemonicParsing="false" onAction="#chckBoxFillAction" text="Fill" />
+                  <ColorPicker fx:id="clrPickerLine" layoutX="12.0" layoutY="129.0" onAction="#clrPickerLineAction" />
+                  <ColorPicker fx:id="clrPickerFill" layoutX="12.0" layoutY="209.0" onAction="#clrPickerFillAction" />
+                  <Label layoutX="12.0" layoutY="108.0" text="Line color" />
+                  <Label layoutX="12.0" layoutY="188.0" text="Fill color" />
+                  <Label layoutX="12.0" layoutY="19.0" text="Line width: " />
+                  <Label layoutX="13.0" layoutY="272.0" text="Points: " />
+                  <Label fx:id="lblPointCounter" layoutX="62.0" layoutY="272.0" />
+                  <TextField fx:id="txtBoxLineWidth" layoutX="105.0" layoutY="14.0" onAction="#txtBoxLineWidthAction" prefHeight="31.0" prefWidth="117.0" />
+                  <Button layoutX="12.0" layoutY="513.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="31.0" prefWidth="213.0" text="Save shape" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="647.0" prefWidth="543.0">
+               <children>
+                  <Canvas fx:id="canvas" height="500.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#mouseCanvasClick" width="500.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Button layoutX="398.0" layoutY="513.0" mnemonicParsing="false" onAction="#btnClearCanvasClick" text="Clear canvas" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

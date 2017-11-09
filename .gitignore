@@ -88,3 +88,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /ShapePatterns/nbproject/private/
+ShapePatterns/Shapes/*
+ShapePatterns/Shapes/
