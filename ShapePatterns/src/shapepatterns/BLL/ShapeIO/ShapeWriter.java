@@ -27,14 +27,12 @@ import shapepatterns.BLL.ShapeType;
  */
 public class ShapeWriter
 {   
-    private final Map data;
-    private final Map pointsMap;
     private String fileName;
-    
+    private List<String> lines;
+     
     public ShapeWriter()
     {
-        data = new HashMap<String, Object>();
-        pointsMap = new HashMap<String, double[]>();
+        lines = new ArrayList<>();  
         File dir = new File("Shapes");
         if (!dir.exists())
         {
@@ -45,7 +43,7 @@ public class ShapeWriter
     
     public void createShapeFile(Shape shape) throws IOException
     {
-        fillHashMap(shape);
+        fillList(shape);
         createFile();
     }
     
@@ -53,7 +51,7 @@ public class ShapeWriter
      * Create hashmaps from the data from the shape
      * @param shape 
      */
-    private void fillHashMap(Shape shape)
+    private void fillList(Shape shape)
     {
         ShapeInfo si = shape.getShapeInfo();
         
@@ -69,19 +67,19 @@ public class ShapeWriter
         Color fillColor = si.getFillColor();
         
         //Fill up the hashmap
-        data.put("type", type);
-        data.put("size", size);
-        data.put("lineWidth", lineWidth);
-        data.put("filled", filled);
-        data.put("lineColor", lineColor);
-        data.put("fillColor", fillColor);
+        lines.add("type: " + type.toString());
+        lines.add("size: " + size);
+        lines.add("lineWidth: " + lineWidth);
+        lines.add("filled: " + filled);
+        lines.add("lineColor: " + lineColor);
+        lines.add("fillColor: " +fillColor);
         
         int i = 0;
         
         //Fill out the hasmap containing the points
         for (Point point : points)
         {
-            pointsMap.put("p"+Integer.toString(i), new Double[]{point.getX(), point.getY()});
+            lines.add("p"+Integer.toString(i) + ": " + Double.toString(point.getX()) + "; "+ Double.toString(point.getX()));
             i++;
         }
     } 
@@ -91,37 +89,7 @@ public class ShapeWriter
      * @throws IOException 
      */
     private void createFile() throws IOException
-    {
-        List<String> lines = new ArrayList<>();
-        
-        //Read the parameters from the hasmap
-        for (Object e : data.entrySet()) 
-        {
-            Map.Entry<String,Object> entry = (Map.Entry<String,Object>)e;
-            String key = entry.getKey();
-            String value = entry.getValue().toString();
-            
-            String d = key+": "+value;
-            lines.add(d);
-
-            System.out.println(key + ": " + value);
-        }
-        
-        //Read the points from the hasmpap
-        for (Object e : pointsMap.entrySet()) 
-        {
-            Map.Entry<String,Object> entry = (Map.Entry<String,Object>)e;
-            String key = entry.getKey();
-            Object[] value = (Object[])entry.getValue();
-            double d1 = (double)value[0];
-            double d2 = (double)value[1];
-            
-            String d = key+": " + Double.toString(d1) + "; " + Double.toString(d2);
-            lines.add(d);  
-            
-            System.out.println(key + ": " + Double.toString(d1) + "; " + Double.toString(d2));
-        }
-        
+    {   
         //Create path
         File f = new File("Shapes/" + fileName + ".shape");
         

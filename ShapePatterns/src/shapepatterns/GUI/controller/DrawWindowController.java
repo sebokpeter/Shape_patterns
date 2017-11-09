@@ -262,6 +262,10 @@ public class DrawWindowController implements Initializable
         stage.show();
     }
 
+    /**
+     * Sets the custom shape to the shape created by the user, and updates the UI
+     * @param currentCustomShape 
+     */
     public void setCurrentCustomShape(Shape currentCustomShape)
     {
         this.currentCustomShape = currentCustomShape;

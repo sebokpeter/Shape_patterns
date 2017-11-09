@@ -8,6 +8,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" prefHeight="560.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="shapepatterns.GUI.controller.CustomShapeEditorFXMLController">
    <children>
@@ -25,6 +26,8 @@
                   <Label fx:id="lblPointCounter" layoutX="62.0" layoutY="272.0" />
                   <TextField fx:id="txtBoxLineWidth" layoutX="105.0" layoutY="14.0" onAction="#txtBoxLineWidthAction" prefHeight="31.0" prefWidth="117.0" />
                   <Button layoutX="12.0" layoutY="513.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="31.0" prefWidth="213.0" text="Save shape" />
+                  <Label layoutX="12.0" layoutY="315.0" text="Instructions:" />
+                  <Text layoutX="15.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Use your mouse to place points onto the canvas. These points will be used to draw a custom shape." wrappingWidth="203.84033203125" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="647.0" prefWidth="543.0">
