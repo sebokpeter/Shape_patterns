@@ -270,6 +270,12 @@ public class CustomShapeEditorFXMLController implements Initializable
         {
             si.setLineColor(clrPickerLine.getValue());
         }
+        
+        //Same with the line width, use default width
+        if (si.getLineWidth() == 0)
+        {
+            si.setLineWidth(1);
+        }
         parent.setCurrentCustomShape(customShape);
     }
     

@@ -28,7 +28,6 @@ public class ShapeInfo
 
     public ShapeInfo()
     {
-        
     }
 
     public int getLineWidth()
