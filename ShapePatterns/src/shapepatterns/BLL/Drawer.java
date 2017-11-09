@@ -61,6 +61,11 @@ public class Drawer
         drawAtPoints(drawPositions, shapesToDraw);
     }
     
+    /**
+     * Draw in a grid pattern
+     * @param spacing
+     * @param shapesToDraw 
+     */
     public void drawGridPattern(int spacing, List<Shape> shapesToDraw)
     {
         List<Point> drawPositions = new ArrayList();
@@ -79,6 +84,9 @@ public class Drawer
         drawAtPoints(drawPositions, shapesToDraw);
     }
     
+    /**
+    *Draw at a random position
+    */
     public void drawRandomPattern(List<Shape> shapesToDraw)
     {
         Random random = new Random();

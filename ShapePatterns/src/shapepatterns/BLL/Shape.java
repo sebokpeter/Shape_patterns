@@ -24,12 +24,21 @@ public class Shape implements Drawable
     private ShapeInfo shapeInfo; //A collection of different parameters (line width, is the shape filled, line and fill color)
     private ShapeType type;
     
+    //There are several constructors, each serving a different purpose
+    
+    /**
+     * An empty constructor. Used when the the shape will be modified after creation
+     */
     public Shape()
     {
         this.original = new ArrayList();
         this.drawPoints = new ArrayList();
     }
     
+    /**
+     * 
+     * @param type 
+     */
     public Shape(ShapeType type)
     {
         this.original = new ArrayList();
@@ -45,16 +54,6 @@ public class Shape implements Drawable
         this.size = size;
     }
 
-    public ShapeType getType()
-    {
-        return type;
-    }
-
-    public void setType(ShapeType type)
-    {
-        this.type = type;
-    }
-    
     /**
      * Create a copy of another shape
      * @param s The other shape
@@ -66,6 +65,16 @@ public class Shape implements Drawable
         this.drawPoints = new ArrayList();
         this.type = s.getType();
         this.size = s.getSize();
+    }
+    
+    public ShapeType getType()
+    {
+        return type;
+    }
+
+    public void setType(ShapeType type)
+    {
+        this.type = type;
     }
     
     
@@ -135,7 +144,6 @@ public class Shape implements Drawable
         return yCoords;
     }
     
-    
     /**
      * Since the Shape class only stores the relative position of the points, we need to update them if we want to draw them on different coordinates
      * @param x
@@ -178,7 +186,7 @@ public class Shape implements Drawable
     }
     
     /**
-     * Draw a polygon
+     * Draw a polygon, using the settings find in the shapeInfo
      * @param context The lines will be drawn on this 
      * @param x 
      * @param y 

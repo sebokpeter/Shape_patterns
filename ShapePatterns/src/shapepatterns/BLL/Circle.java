@@ -19,7 +19,7 @@ public class Circle extends Shape
     private Point drawPoint;
     private ShapeInfo shapeInfo;
     private ShapeType type;
-    private int size;
+    private int size;   //The size of the shape controls the radious of the circe
     
     public Circle(ShapeType type, int size)
     {
@@ -50,7 +50,7 @@ public class Circle extends Shape
     
     public void setSize(int size)
     {
-        this.size = size*100;
+        this.size = size*100; //Scale it by a 100, so it is more consistent with the other shapes
     }
     
     public List<Point> getPoints()
@@ -60,6 +60,12 @@ public class Circle extends Shape
         return ol;
     }
     
+    /**
+     * Draw a circle at the specified coordinates
+     * @param context
+     * @param x
+     * @param y 
+     */
     @Override
     public void draw(GraphicsContext context, double x, double y)
     {

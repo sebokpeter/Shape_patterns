@@ -42,6 +42,7 @@ public class ShapeWriter
         }
     }
     
+    
     public void createShapeFile(Shape shape) throws IOException
     {
         fillHashMap(shape);
@@ -93,6 +94,7 @@ public class ShapeWriter
     {
         List<String> lines = new ArrayList<>();
         
+        //Read the parameters from the hasmap
         for (Object e : data.entrySet()) 
         {
             Map.Entry<String,Object> entry = (Map.Entry<String,Object>)e;
@@ -105,6 +107,7 @@ public class ShapeWriter
             System.out.println(key + ": " + value);
         }
         
+        //Read the points from the hasmpap
         for (Object e : pointsMap.entrySet()) 
         {
             Map.Entry<String,Object> entry = (Map.Entry<String,Object>)e;
@@ -119,12 +122,13 @@ public class ShapeWriter
             System.out.println(key + ": " + Double.toString(d1) + "; " + Double.toString(d2));
         }
         
+        //Create path
         File f = new File("Shapes/" + fileName + ".shape");
         
         int n = 1;
         while(f.exists())   //See if a file with this name already exist
         {
-           f = new File("Shapes/"+fileName + Integer.toString(n) + ".txt"); //If is does, then append a number to its end, so we dont overwite
+           f = new File("Shapes/"+fileName + Integer.toString(n) + ".txt"); //If is does, then append a number to its end, so we dont overwite already existing file
            n++;
         }
         

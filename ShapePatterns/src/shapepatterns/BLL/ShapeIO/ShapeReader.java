@@ -37,17 +37,22 @@ public class ShapeReader
         s = reconstructShape();
         return s;
     }
-
+    
+    /**
+     * Tries to read the file selected by the user, and tries to reconstruct a shape from it
+     * @param file
+     * @throws Exception 
+     */
     private void readFile(File file) throws Exception
     {
-        if (file == null)
+        if (file == null)   
         {
             return;
         }
         
         try
         {
-            if (!file.getPath().endsWith(".shape"))
+            if (!file.getPath().endsWith(".shape")) //The file is not a saved shape
             {
                 throw new Exception("Wrong file type");
             }
@@ -57,12 +62,15 @@ public class ShapeReader
             System.out.println(e.getMessage());
         }
         
+        //Reads text using a file reader from the specified file
         BufferedReader bf = new BufferedReader(new FileReader(file.getPath()));
         
         try
         {
+            //Read the first line
             String next = bf.readLine();
             
+            //Read until file is over
             while(next != null)
             {
                 data.add(next);
@@ -79,6 +87,11 @@ public class ShapeReader
         }
     }
 
+    /**
+     * Try to reconstruct the shape using the data from the file
+     * @return
+     * @throws Exception 
+     */
     private Shape reconstructShape() throws Exception
     {
         //All the parameters necesearry to reconstruct a shape
@@ -120,6 +133,7 @@ public class ShapeReader
                     break;
             }
             
+            //These are the points
             if (param[0].startsWith("p"))
             {
                 String[] coords = param[1].split(";");
